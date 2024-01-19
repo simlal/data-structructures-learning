@@ -3,3 +3,6 @@
 
 # testing for header
 test.cpp
+
+# binaries
+*.out
