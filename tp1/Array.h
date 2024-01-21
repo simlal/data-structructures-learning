@@ -39,19 +39,27 @@ class Array {
             return *(ARR + index);
         };
 
-        // front() : Retourne une référence sur le premier élément ;
+        // Retourne une référence sur le premier élément ;
+        T& front() const {
+            return *ARR;
+        };
 
-        // back() : Retourne une référence sur le dernier élément ;
+        // Retourne une référence sur le dernier élément ;
+        T& back() const {
+            return *(ARR + DIM - 1); // 0-based indexing
+        };
+
+        // class Iterator {
+        //     private:
+        //         T* iter;
+        //     public:
+
+        // }
 
         // fill(T) : Affecte la valeur passée en paramètre à chaque élément du tableau
-
-        // swap(Array<T, N>) : Échange le contenu de deux tableaux, en temps constant
-
-        // fusion(Array<T, M>) : Fusionne le tableau courant avec celui reçu
-        // en paramètre et retourne le tableau fusionné
-
-        // subset<M>(size_t) : Retourne, dans un nouveau tableau, M valeurs
-        // du tableau courant à partir de la position indiquée en paramètre
+        // void fill(T value) {
+        //     for (size_t i = 0; i < DIM; i++)
+        // }
 
         // begin() : Retourne un itérateur au début du tableau ;
 
@@ -60,4 +68,13 @@ class Array {
         // cbegin() : Retourne un itérateur constant au début du tableau ;
 
         // cend() : Retourne un itérateur constant à la fin du tableau.
+
+
+        // swap(Array<T, N>) : Échange le contenu de deux tableaux, en temps constant
+
+        // fusion(Array<T, M>) : Fusionne le tableau courant avec celui reçu
+        // en paramètre et retourne le tableau fusionné
+
+        // subset<M>(size_t) : Retourne, dans un nouveau tableau, M valeurs
+        // du tableau courant à partir de la position indiquée en paramètre
 };
