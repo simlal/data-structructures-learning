@@ -3,7 +3,8 @@
 template <typename T, size_t DIM>
 class Array {
     private:
-        T* ARR; // pointeur vers array de type T
+        T* ARR; // pointeur vers le debut array de type T
+
     public:
         // Constructeur par defaut
         Array() {
@@ -15,15 +16,28 @@ class Array {
             delete[] ARR;
         }
 
-        // size() : Retourne le nombre d’éléments du tableau
+        // Retourne le nombre d’éléments du tableau
+        size_t size() const {
+            return DIM;
+        };
 
-        // empty() : Indique si le nombre d’éléments est de zéro ;
+        // Indique si le nombre d’éléments est de zéro
+        bool empty() const {
+            return DIM == 0;
+        };
 
-        // operator[](size_t) : Retourne une référence vers un élément à la
-        // position indiquée sans valider la position ;
+        // Retourne une référence vers un élément à la position indiquée sans validation
+        T& operator[] (size_t index) const {
+            return *(ARR + index);
+        };
 
-        // at(size_t) : Retourne une référence vers un élément, en validant la
-        // position ;
+        // Retourne une référence vers un élément, en validant la position
+        T& at(size_t index) const {
+            if (index >= DIM) {
+                throw std::out_of_range("Index est hors-limite du Array");
+            };
+            return *(ARR + index);
+        };
 
         // front() : Retourne une référence sur le premier élément ;
 
