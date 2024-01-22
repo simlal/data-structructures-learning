@@ -39,27 +39,27 @@ class Array {
             // size_t specificPos = 1;
             // std::cout << "ARR[" << specificPos << "]: " << ARR[specificPos] << std::endl;
 
-        };
+        }
 
         // Getter pour membre ARR (debug)
         T* getARR() const {
             return ARR;
-        };
+        }
 
         // Retourne le nombre d’éléments du tableau
         size_t size() const {
             return DIM;
-        };
+        }
 
         // Indique si le nombre d’éléments est de zéro
         bool empty() const {
             return DIM == 0;
-        };
+        }
 
         // Retourne une référence vers un élément à la position indiquée sans validation
         T& operator[] (size_t index) const {
             return *(ARR + index);
-        };
+        }
 
         // Retourne une référence vers un élément, en validant la position
         T& at(size_t index) const {
@@ -67,17 +67,17 @@ class Array {
                 throw std::out_of_range("Index est hors-limite du Array");
             };
             return *(ARR + index);
-        };
+        }
 
         // Retourne une référence sur le premier élément ;
         T& front() const {
             return *ARR;
-        };
+        }
 
         // Retourne une référence sur le dernier élément ;
         T& back() const {
             return *(ARR + DIM - 1); // 0-based indexing
-        };
+        }
 
         // Iterateur de Array pour fonctions qui necessitent de traverser le conteneur
         class Iterator {
@@ -99,7 +99,7 @@ class Array {
 
                     // function tests
 
-                };
+                }
 
                 // getter pour arrElement (debug)
                 T* getArrElement() const {
@@ -146,6 +146,12 @@ class Array {
         // end() : Retourne un itérateur à la fin du tableau ;
         Iterator end() const {
             return Iterator(&back() + 1);
+        }
+
+        // ConstIterateur
+        class ConstIterator {
+            private:
+
         }
 
         // cbegin() : Retourne un itérateur constant au début du tableau ;
