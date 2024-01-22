@@ -6,14 +6,24 @@ class Array {
         T* ARR; // pointeur vers le debut array de type T
 
     public:
-        // Constructeur par defaut
+        // Constructeur par defaut avec Array vide
         Array() {
             ARR = new T[DIM];
+        }
+
+        // Constructeur qui remplit le array avec la valeur de type T
+        Array(T value) {
+            // TODO use iterator
         }
 
         // Destructeur de base
         ~Array() {
             delete[] ARR;
+        }
+
+        // Getter pour membre ARR (debug)
+        T* getARR() const {
+            return ARR;
         }
 
         // Retourne le nombre d’éléments du tableau
@@ -49,12 +59,40 @@ class Array {
             return *(ARR + DIM - 1); // 0-based indexing
         };
 
-        // class Iterator {
-        //     private:
-        //         T* iter;
-        //     public:
+        // Iterateur de Array pour fonctions qui necessitent de traverser le conteneur
+        class Iterator {
+            private:
+                T* iter;    // 
+            public:
+                // Constructeur de base qui prend un pointeur T en param
+                Iterator(T* iter) {
+                    this->iter = iter;
+                }
+                // Pas de destructeur car instance creer sur la pile et conserver
+                // dans la portee uniquement
 
-        // }
+                // Operateur ++ postfix
+                Iterator& operator++() {
+                    
+                }
+                // Operateur ++ prefix
+                Iterator operator++(int) {
+
+                }
+                // Operateur == si 2e iterateur pointe a meme position que this
+                bool operator==(const Iterator& otherIter) const {
+                    return iter == otherIter.iter;
+                }
+                // Operateur != si 2e iterateur pointe a diff position que this
+                bool operator!=(const Iterator& otherIter) const {
+                    return iter != otherIter.iter;
+                }
+                // Operateur dereference *
+                T& operator*() {
+                    return *iter;
+                }
+        };
+
 
         // fill(T) : Affecte la valeur passée en paramètre à chaque élément du tableau
         // void fill(T value) {
