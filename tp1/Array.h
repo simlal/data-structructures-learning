@@ -1,4 +1,5 @@
 # include <cstddef>
+# include <iostream>
 
 template <typename T, size_t DIM>
 class Array {
@@ -21,10 +22,29 @@ class Array {
             delete[] ARR;
         }
 
+        // Affichage de Array pour debug
+        void printArr() const {
+            // Base properties
+            std::cout << "\nArray info"<< std::endl;
+            std::cout << "pARR (T*): " << ARR << std::endl;
+            std::cout << "*pARR (1st ele value): " << *ARR << std::endl;
+            std::cout << "DIM (size_t): " << DIM << std::endl;
+            std::cout << "size (size_t): " << size() << std::endl;
+            std::cout << "empty?: " << std::boolalpha << empty() << std::endl;
+            std::cout << "front (T&): " << front() << std::endl;
+            std::cout << "back (T&): " << back() << std::endl;
+            
+            // Tests for member funcs on instance
+            // [] and at
+            // size_t specificPos = 1;
+            // std::cout << "ARR[" << specificPos << "]: " << ARR[specificPos] << std::endl;
+
+        };
+
         // Getter pour membre ARR (debug)
         T* getARR() const {
             return ARR;
-        }
+        };
 
         // Retourne le nombre d’éléments du tableau
         size_t size() const {
@@ -62,34 +82,53 @@ class Array {
         // Iterateur de Array pour fonctions qui necessitent de traverser le conteneur
         class Iterator {
             private:
-                T* iter;    // 
+                T* arrElement;    // 
             public:
                 // Constructeur de base qui prend un pointeur T en param
-                Iterator(T* iter) {
-                    this->iter = iter;
+                Iterator(T* arrElement) {
+                    this->arrElement = arrElement;
                 }
                 // Pas de destructeur car instance creer sur la pile et conserver
                 // dans la portee uniquement
 
-                // Operateur ++ postfix
-                Iterator& operator++() {
-                    
-                }
-                // Operateur ++ prefix
-                Iterator operator++(int) {
+                // Affichage iterator pour debug
+                void printIterator() const {
+                    std::cout << "\nIterator info" << std::endl;
+                    std::cout << "arrElement (T*): " << arrElement << std::endl;
+                    std::cout << "*arrElement: " << *arrElement << std::endl;
 
+                    // function tests
+
+                };
+
+                // getter pour arrElement (debug)
+                T* getArrElement() const {
+                    return arrElement;
+                }
+
+                // Operateur ++ prefixe retourne une reference a l'iterateur
+                Iterator& operator++() {
+                    arrElement = arrElement + 1;
+                    return *this;    // reference a l'iterateur incremente
+                }
+                // Operateur ++ postfixe retourne la valeur de l'iterateur avant incrementation
+                // Incremente l'iterateur
+                Iterator operator++(int) {
+                    Iterator temp = *this;
+                    arrElement = arrElement + 1;
+                    return temp;    // copie de l'etat actuel avant incrementation
                 }
                 // Operateur == si 2e iterateur pointe a meme position que this
                 bool operator==(const Iterator& otherIter) const {
-                    return iter == otherIter.iter;
+                    return arrElement == otherIter.arrElement;
                 }
                 // Operateur != si 2e iterateur pointe a diff position que this
                 bool operator!=(const Iterator& otherIter) const {
-                    return iter != otherIter.iter;
+                    return arrElement != otherIter.arrElement;
                 }
                 // Operateur dereference *
                 T& operator*() {
-                    return *iter;
+                    return *arrElement;
                 }
         };
 
@@ -100,8 +139,14 @@ class Array {
         // }
 
         // begin() : Retourne un itérateur au début du tableau ;
+        Iterator begin() const {
+            return Iterator(&front());
+        }
 
         // end() : Retourne un itérateur à la fin du tableau ;
+        Iterator end() const {
+            return Iterator(&back() + 1);
+        }
 
         // cbegin() : Retourne un itérateur constant au début du tableau ;
 
