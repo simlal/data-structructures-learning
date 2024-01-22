@@ -6,3 +6,6 @@ test.cpp
 
 # binaries
 *.out
+
+# vscode
+.vscode
