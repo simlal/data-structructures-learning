@@ -66,7 +66,7 @@ class Array {
 
         // Indique si le nombre d’éléments est de zéro
         bool empty() const {
-            return DIM == 0;
+            return size() == 0;
         }
 
         // Retourne une référence vers un élément à la position indiquée sans validation
@@ -84,7 +84,7 @@ class Array {
         // Retourne une référence vers un élément, en validant la position
         // Prend un const Array donc pas de modif
         T& at(size_t index) const {
-            if (index >= DIM) {
+            if (index >= size()) {
                 throw std::out_of_range("Index est hors-limite du Array");
             };
             return *(ARR + index);
@@ -92,7 +92,7 @@ class Array {
         // Retourne une référence vers un élément, en validant la position
         // Prend un non-const Array donc peut modifier le Array
         T& at(size_t index) {
-            if (index >= DIM) {
+            if (index >= size()) {
                 throw std::out_of_range("Index est hors-limite du Array");
             };
             return *(ARR + index);
@@ -105,7 +105,7 @@ class Array {
 
         // Retourne une référence sur le dernier élément ;
         T& back() const {
-            return *(ARR + DIM - 1); // 0-based indexing
+            return *(ARR + size() - 1); // 0-based indexing
         }
 
         // Iterateur de Array pour fonctions qui necessitent de traverser le conteneur
@@ -256,7 +256,7 @@ class Array {
             return ConstIterator(&back() + 1);
         }
 
-        // swap(Array<T, N>) : Échange le contenu de deux tableaux, en temps constant
+        // Échange le contenu de deux tableaux, en temps constant
         // Peut seulement echanger 2 array de taille identique 
         void swap(Array& otherArr) {
             T* tempArr = ARR;
@@ -264,8 +264,32 @@ class Array {
             otherArr.ARR = tempArr;
         }
 
-        // fusion(Array<T, M>) : Fusionne le tableau courant avec celui reçu
+        // Fusionne le tableau courant avec celui reçu
         // en paramètre et retourne le tableau fusionné
+        template<size_t M>
+        Array<T, DIM + M> fusion(Array<T, M>& otherArr) {
+            // Alloc de l'espace (DIM + M) dans heap
+            Array<T, DIM + M> fusedArr;
+            typename Array<T, DIM + M>::Iterator fusedArrIter = fusedArr.begin();    // non-const iter pour remplir le array fusionne
+            
+            // Debut par copie de this
+            for (ConstIterator iter = cbegin(); iter != cend(); ++iter) {
+                *fusedArrIter = *iter;
+                ++fusedArrIter;
+            }
+            
+            // Creer const-iter de type Array avec une DIM differente
+            typename Array<T, M>::ConstIterator otherIter = otherArr.cbegin(); 
+            typename Array<T, M>::ConstIterator otherIterEnd = otherArr.cend(); 
+            
+            // Append otherArr dans le fusedArr
+            for (otherIter; otherIter != otherIterEnd; ++otherIter) {
+                *fusedArrIter = *otherIter;
+                ++fusedArrIter;
+            }
+            
+            return fusedArr;
+        }
 
         // subset<M>(size_t) : Retourne, dans un nouveau tableau, M valeurs
         // du tableau courant à partir de la position indiquée en paramètre
