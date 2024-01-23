@@ -37,7 +37,7 @@ class Array {
         // Affichage de Array pour debug
         void printArr() const {
             // Base properties
-            std::cout << "\nArray info"<< std::endl;
+            std::cout << "### Array info ###"<< std::endl;
             std::cout << "pARR (T*): " << ARR << std::endl;
             std::cout << "*pARR (1st ele value): " << *ARR << std::endl;
             std::cout << "DIM (size_t): " << DIM << std::endl;
@@ -48,12 +48,10 @@ class Array {
             
             // Affiche le contenu avec ConstIterator
             std::cout << "Contenu du Array: "<< std::endl;
-            // size_t counter = 0
             for (ConstIterator iter = cbegin(); iter != cend(); ++iter) {
                 std::cout << "  ARR[" << iter.getCounter() << "]: ";
                 std:: cout << *iter << std::endl;
             }
-            
         }
 
         // Getter pour membre ARR (debug)
@@ -131,7 +129,7 @@ class Array {
 
                 // Affichage iterator pour debug
                 void printIterator() const {
-                    std::cout << "\nIterator info" << std::endl;
+                    std::cout << "Iterator info" << std::endl;
                     std::cout << "arrElement (T*): " << arrElement << std::endl;
                     std::cout << "*arrElement: " << *arrElement << std::endl;
 
