@@ -270,7 +270,7 @@ class Array {
         Array<T, DIM + M> fusion(Array<T, M>& otherArr) const {
             // Alloc de l'espace (DIM + M) dans heap
             Array<T, DIM + M> fusedArr;
-            typename Array<T, DIM + M>::Iterator fusedArrIter = fusedArr.begin();    // non-const iter pour remplir le array fusionne
+            typename Array<T, DIM + M>::Iterator fusedArrIter = fusedArr.begin();    // non-const iter pour modifier le array fusionne
             
             // Debut par copie de this
             for (ConstIterator iter = cbegin(); iter != cend(); ++iter) {
@@ -293,4 +293,23 @@ class Array {
 
         // subset<M>(size_t) : Retourne, dans un nouveau tableau, M valeurs
         // du tableau courant à partir de la position indiquée en paramètre
+        template <size_t M>
+        Array<T, M> subset(size_t index) const {
+            // Validation pour eviter subset avec garbage
+            if (M > DIM - index) {
+                throw std::out_of_range("Index est trop eleve pour un subset de taille 'M'");
+            }
+
+            Array<T, M> subsetArr;  // Espace en fonction de position passee en param
+            typename Array<T, M>::Iterator subsetIter = subsetArr.begin();    // non-const iter pour modifier array subset
+
+            // Copie en commencant de position jusqu'a la fin
+            T* pIndex = &at(index);    // ptr vers adresse de la position de depart
+            for (ConstIterator iterIndex = ConstIterator(pIndex); iterIndex != cend() && subsetIter != subsetArr.end(); ++iterIndex) {
+                *subsetIter = *iterIndex;
+                ++subsetIter;
+            }
+            
+            return subsetArr;
+        }
 };
