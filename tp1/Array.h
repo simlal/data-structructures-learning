@@ -35,11 +35,14 @@ class Array {
             std::cout << "front (T&): " << front() << std::endl;
             std::cout << "back (T&): " << back() << std::endl;
             
-            // Tests for member funcs on instance
-            // [] and at
-            // size_t specificPos = 1;
-            // std::cout << "ARR[" << specificPos << "]: " << ARR[specificPos] << std::endl;
-
+            // Affiche le contenu avec ConstIterator
+            std::cout << "Contenu du Array: "<< std::endl;
+            // size_t counter = 0
+            for (ConstIterator iter = cbegin(); iter != cend(); ++iter) {
+                std::cout << "  ARR[" << iter.getCounter() << "]: ";
+                std:: cout << *iter << std::endl;
+            }
+            
         }
 
         // Getter pour membre ARR (debug)
@@ -58,12 +61,28 @@ class Array {
         }
 
         // Retourne une référence vers un élément à la position indiquée sans validation
+        // Prend un const Array donc pas de modif
         T& operator[] (size_t index) const {
+            return *(ARR + index);
+        }
+        
+        // Retourne une référence vers un élément à la position indiquée sans validation
+        // Prend un non-const Array donc peut modifier le Array
+        T& operator[] (size_t index) {
             return *(ARR + index);
         }
 
         // Retourne une référence vers un élément, en validant la position
+        // Prend un const Array donc pas de modif
         T& at(size_t index) const {
+            if (index >= DIM) {
+                throw std::out_of_range("Index est hors-limite du Array");
+            };
+            return *(ARR + index);
+        }
+        // Retourne une référence vers un élément, en validant la position
+        // Prend un non-const Array donc peut modifier le Array
+        T& at(size_t index) {
             if (index >= DIM) {
                 throw std::out_of_range("Index est hors-limite du Array");
             };
@@ -83,11 +102,13 @@ class Array {
         // Iterateur de Array pour fonctions qui necessitent de traverser le conteneur
         class Iterator {
             private:
-                T* arrElement;    // 
+                T* arrElement;
+                size_t counter;    // Pour debug
             public:
                 // Constructeur de base qui prend un pointeur T en param
-                Iterator(T* arrElement) {
+                Iterator(T* arrElement) {counter++;
                     this->arrElement = arrElement;
+                    this->counter = 0;
                 }
 
                 // Constructeur de copie
@@ -109,6 +130,10 @@ class Array {
                 T* getArrElement() const {
                     return arrElement;
                 }
+                // Getter pour counter (debug)
+                size_t getCounter() const {
+                    return counter;
+                }
 
                 // Operateur dereference *
                 T& operator*() const {
@@ -117,6 +142,7 @@ class Array {
                 // Operateur ++ prefixe retourne une reference a l'iterateur
                 Iterator& operator++() {
                     arrElement = arrElement + 1;
+                    counter++;
                     return *this;    // reference a l'iterateur incremente
                 }
                 // Operateur ++ postfixe retourne la valeur de l'iterateur avant incrementation
@@ -124,6 +150,7 @@ class Array {
                 Iterator operator++(int) {
                     Iterator temp = *this;
                     arrElement = arrElement + 1;
+                    counter++;
                     return temp;    // copie de l'etat actuel avant incrementation
                 }
                 // Operateur == si 2e iterateur pointe a meme position que this
@@ -158,12 +185,14 @@ class Array {
         // ConstIterateur pour lecture du conteneur Array sans modification
         class ConstIterator {
             private:
-                const T* arrElement;    // ptr vers element const
+                const T* arrElement;    // ptr vers element const non-mutable
+                size_t counter;    // Pour debug
 
             public:
                 // Constructeur de base
                 ConstIterator(const T* arrElement) {
                     this->arrElement = arrElement;
+                    this->counter = 0;
                 }
 
                 // Constructeur par copie d'un iterator constant
@@ -175,6 +204,10 @@ class Array {
                 const T* getArrElement() const {
                     return arrElement;
                 }
+                // Getter pour counter (debug)
+                size_t getCounter() const {
+                    return counter;
+                }
 
                 // Operateur dereference * qui ne permet pas la modification de la reference
                 const T& operator*() const {
@@ -183,6 +216,7 @@ class Array {
                 // Operateur ++ prefixe retourne une reference a l'iterateur
                 ConstIterator& operator++() {
                     arrElement = arrElement + 1;
+                    counter++;
                     return *this;    // reference a l'iterateur incremente
                 }
                 // Operateur ++ postfixe retourne la valeur de l'iterateur avant incrementation
@@ -190,6 +224,7 @@ class Array {
                 ConstIterator operator++(int) {
                     Iterator temp = *this;
                     arrElement = arrElement + 1;
+                    counter++;
                     return temp;    // copie de l'etat actuel avant incrementation
                 }
                 // Operateur == si 2e iterateur pointe a meme position que this
