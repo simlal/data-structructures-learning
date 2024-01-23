@@ -14,8 +14,19 @@ class Array {
 
         // Constructeur qui remplit le array avec la valeur de type T
         Array(T value) {
-            ARR = new T[DIM];
+            ARR = new T[DIM];    // Alloc sur heap type/dim
             fill(value);
+        }
+        // Constructeur de copie
+        Array(Array& otherArr) {
+            ARR = new T[DIM];    // Alloc sur heap type/dim
+            
+            // Copie les valeurs de otherArr dans this par dereference
+            ConstIterator otherArrIter = otherArr.cbegin();
+            for (Iterator iter = begin(); iter != end(); ++iter) {
+                *iter = *otherArrIter;
+                ++otherArrIter;
+            }
         }
 
         // Destructeur de base
@@ -248,6 +259,12 @@ class Array {
         }
 
         // swap(Array<T, N>) : Échange le contenu de deux tableaux, en temps constant
+        // Peut seulement echanger 2 array de taille identique 
+        void swap(Array& otherArr) {
+            T* tempArr = ARR;
+            ARR = otherArr.ARR;
+            otherArr.ARR = tempArr;
+        }
 
         // fusion(Array<T, M>) : Fusionne le tableau courant avec celui reçu
         // en paramètre et retourne le tableau fusionné
