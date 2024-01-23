@@ -88,6 +88,11 @@ class Array {
                 Iterator(T* arrElement) {
                     this->arrElement = arrElement;
                 }
+
+                // Constructeur de copie
+                Iterator(Iterator& otherIter) {
+
+                }
                 // Pas de destructeur car instance creer sur la pile et conserver
                 // dans la portee uniquement
 
@@ -97,8 +102,6 @@ class Array {
                     std::cout << "arrElement (T*): " << arrElement << std::endl;
                     std::cout << "*arrElement: " << *arrElement << std::endl;
 
-                    // function tests
-
                 }
 
                 // getter pour arrElement (debug)
@@ -106,6 +109,10 @@ class Array {
                     return arrElement;
                 }
 
+                // Operateur dereference *
+                T& operator*() const {
+                    return *arrElement;
+                }
                 // Operateur ++ prefixe retourne une reference a l'iterateur
                 Iterator& operator++() {
                     arrElement = arrElement + 1;
@@ -126,10 +133,6 @@ class Array {
                 bool operator!=(const Iterator& otherIter) const {
                     return arrElement != otherIter.arrElement;
                 }
-                // Operateur dereference *
-                T& operator*() {
-                    return *arrElement;
-                }
         };
 
 
@@ -148,16 +151,62 @@ class Array {
             return Iterator(&back() + 1);
         }
 
-        // ConstIterateur
+        // ConstIterateur pour lecture du conteneur Array sans modification
         class ConstIterator {
             private:
+                const T* arrElement;    // ptr vers element const
 
-        }
+            public:
+                // Constructeur de base
+                ConstIterator(const T* arrElement) {
+                    this->arrElement = arrElement;
+                }
+
+                // Constructeur par copie d'un iterator constant
+                ConstIterator(const ConstIterator* otherIter) {
+                    this->arrElement = otherIter->arrElement;
+                }
+
+                // getter pour arrElement (debug)
+                const T* getArrElement() const {
+                    return arrElement;
+                }
+
+                // Operateur dereference * qui ne permet pas la modification de la reference
+                const T& operator*() const {
+                    return *arrElement;
+                }
+                // Operateur ++ prefixe retourne une reference a l'iterateur
+                ConstIterator& operator++() {
+                    arrElement = arrElement + 1;
+                    return *this;    // reference a l'iterateur incremente
+                }
+                // Operateur ++ postfixe retourne la valeur de l'iterateur avant incrementation
+                // Incremente l'iterateur
+                ConstIterator operator++(int) {
+                    Iterator temp = *this;
+                    arrElement = arrElement + 1;
+                    return temp;    // copie de l'etat actuel avant incrementation
+                }
+                // Operateur == si 2e iterateur pointe a meme position que this
+                bool operator==(const ConstIterator& otherIter) const {
+                    return arrElement == otherIter.arrElement;
+                }
+                // Operateur != si 2e iterateur pointe a diff position que this
+                bool operator!=(const ConstIterator& otherIter) const {
+                    return arrElement != otherIter.arrElement;
+                }
+        };
 
         // cbegin() : Retourne un itérateur constant au début du tableau ;
+        ConstIterator cbegin() const {
+            return ConstIterator(&front());
+        }
 
         // cend() : Retourne un itérateur constant à la fin du tableau.
-
+        ConstIterator cend() const {
+            return ConstIterator(&back() + 1);
+        }
 
         // swap(Array<T, N>) : Échange le contenu de deux tableaux, en temps constant
 
