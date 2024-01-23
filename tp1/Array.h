@@ -14,7 +14,7 @@ class Array {
 
         // Constructeur qui remplit le array avec la valeur de type T
         Array(T value) {
-            // TODO use iterator
+            ARR = fill(value);
         }
 
         // Destructeur de base
@@ -149,7 +149,7 @@ class Array {
         // Affecte la valeur passée en paramètre à chaque élément du tableau
         // Utilise ++ prefixe pour eviter la copie et incrementer directement iter
         void fill(T value) {
-            for (Iterator iter = begin(); iter != end(); ++iter {
+            for (Iterator iter = begin(); iter != end(); ++iter) {
                 *iter = value;
             }
         }
