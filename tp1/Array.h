@@ -136,19 +136,22 @@ class Array {
         };
 
 
-        // fill(T) : Affecte la valeur passée en paramètre à chaque élément du tableau
-        // void fill(T value) {
-        //     for (size_t i = 0; i < DIM; i++)
-        // }
-
-        // begin() : Retourne un itérateur au début du tableau ;
+        // Retourne un itérateur au début du tableau ;
         Iterator begin() const {
             return Iterator(&front());
         }
 
-        // end() : Retourne un itérateur à la fin du tableau ;
+        // Retourne un itérateur à la fin du tableau ;
         Iterator end() const {
             return Iterator(&back() + 1);
+        }
+
+        // Affecte la valeur passée en paramètre à chaque élément du tableau
+        // Utilise ++ prefixe pour eviter la copie et incrementer directement iter
+        void fill(T value) {
+            for (Iterator iter = begin(); iter != end(); ++iter {
+                *iter = value;
+            }
         }
 
         // ConstIterateur pour lecture du conteneur Array sans modification
