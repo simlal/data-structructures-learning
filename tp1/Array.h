@@ -14,7 +14,8 @@ class Array {
 
         // Constructeur qui remplit le array avec la valeur de type T
         Array(T value) {
-            ARR = fill(value);
+            ARR = new T[DIM];
+            fill(value);
         }
 
         // Destructeur de base
