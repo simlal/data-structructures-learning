@@ -291,7 +291,7 @@ class Array {
         // Fusionne le tableau courant avec celui reçu
         // en paramètre et retourne le tableau fusionné
         template<size_t M>
-        Array<T, DIM + M> fusion(Array<T, M>& otherArr) const {
+        Array<T, DIM + M> fusion(const Array<T, M>& otherArr) const {
             // Alloc de l'espace (DIM + M) dans heap
             Array<T, DIM + M> fusedArr;
             typename Array<T, DIM + M>::Iterator fusedArrIter = fusedArr.begin();    // non-const iter pour modifier le array fusionne
