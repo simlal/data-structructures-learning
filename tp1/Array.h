@@ -34,6 +34,18 @@ class Array {
             delete[] ARR;
         }
 
+        // Affectateur de movement
+        Array& operator=(Array&& otherArr) {
+            if (this != &otherArr) {
+                delete[] ARR; // Liberation de la memoire
+
+                // Deplacement du pointeur du Array en param vers this
+                ARR = otherArr.ARR;
+                otherArr.ARR = nullptr;
+            }
+            return *this;
+        }
+
         // Affichage de Array pour debug
         void printArr() const {
             // Base properties
@@ -120,9 +132,11 @@ class Array {
                     this->counter = 0;
                 }
 
-                // Constructeur de copie
+                // Constructeur de copie pour iterateur non-const
+                // Copie de type 'shallow'
                 Iterator(Iterator& otherIter) {
-
+                    this->arrElement = otherIter.arrElement;
+                    this->counter = otherIter.counter;
                 }
                 // Pas de destructeur car instance creer sur la pile et conserver
                 // dans la portee uniquement
@@ -132,7 +146,6 @@ class Array {
                     std::cout << "Iterator info" << std::endl;
                     std::cout << "arrElement (T*): " << arrElement << std::endl;
                     std::cout << "*arrElement: " << *arrElement << std::endl;
-
                 }
 
                 // getter pour arrElement (debug)
@@ -172,7 +185,6 @@ class Array {
                 }
         };
 
-
         // Retourne un itérateur au début du tableau ;
         Iterator begin() const {
             return Iterator(&front());
@@ -205,8 +217,16 @@ class Array {
                 }
 
                 // Constructeur par copie d'un iterator constant
-                ConstIterator(const ConstIterator* otherIter) {
-                    this->arrElement = otherIter->arrElement;
+                // Copie de type 'shallow'
+                ConstIterator(const ConstIterator& otherIter) {
+                    this->arrElement = otherIter.arrElement;
+                    this->counter = otherIter.counter;
+                }
+
+                void printConstIterator() const {
+                    std::cout << "Iterator info" << std::endl;
+                    std::cout << "arrElement (T*): " << arrElement << std::endl;
+                    std::cout << "*arrElement: " << *arrElement << std::endl;
                 }
 
                 // getter pour arrElement (debug)
@@ -231,7 +251,7 @@ class Array {
                 // Operateur ++ postfixe retourne la valeur de l'iterateur avant incrementation
                 // Incremente l'iterateur
                 ConstIterator operator++(int) {
-                    Iterator temp = *this;
+                    ConstIterator temp = *this;
                     arrElement = arrElement + 1;
                     counter++;
                     return temp;    // copie de l'etat actuel avant incrementation
