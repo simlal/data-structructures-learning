@@ -141,7 +141,7 @@ class Array {
 
                 // Constructeur de copie pour iterateur non-const
                 // Copie de type 'shallow'
-                Iterator(Iterator& otherIter) {
+                Iterator(const Iterator& otherIter) {
                     this->arrElement = otherIter.arrElement;
                     this->counter = otherIter.counter;
                 }
