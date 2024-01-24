@@ -66,11 +66,6 @@ class Array {
             }
         }
 
-        // Getter pour membre ARR (debug)
-        T* getARR() const {
-            return ARR;
-        }
-
         // Retourne le nombre d’éléments du tableau
         size_t size() const {
             return DIM;
@@ -134,7 +129,7 @@ class Array {
                 size_t getCounter() const {
                     return counter;
                 }
-                
+
                 friend class Array;    // Pour acceder aux getter pour prints
 
             public:
@@ -260,7 +255,9 @@ class Array {
                 ConstIterator operator++(int) {
                     ConstIterator temp = *this;
                     arrElement = arrElement + 1;
-                    counter++;
+                    counter++;a
+
+
                     return temp;    // copie de l'etat actuel avant incrementation
                 }
                 // Operateur == si 2e iterateur pointe a meme position que this
