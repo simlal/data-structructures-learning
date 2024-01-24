@@ -125,6 +125,18 @@ class Array {
             private:
                 T* arrElement;
                 size_t counter;    // Pour debug
+                
+                // Getter pour arrElement (debug)
+                T* getArrElement() const {
+                    return arrElement;
+                }
+                // Getter pour counter (debug)
+                size_t getCounter() const {
+                    return counter;
+                }
+                
+                friend class Array;    // Pour acceder aux getter pour prints
+
             public:
                 // Constructeur de base qui prend un pointeur T en param
                 Iterator(T* arrElement) {counter++;
@@ -146,15 +158,7 @@ class Array {
                     std::cout << "Iterator info" << std::endl;
                     std::cout << "arrElement (T*): " << arrElement << std::endl;
                     std::cout << "*arrElement: " << *arrElement << std::endl;
-                }
-
-                // getter pour arrElement (debug)
-                T* getArrElement() const {
-                    return arrElement;
-                }
-                // Getter pour counter (debug)
-                size_t getCounter() const {
-                    return counter;
+                    std::cout << "counter: " << counter << std::endl;
                 }
 
                 // Operateur dereference *
@@ -209,6 +213,16 @@ class Array {
                 const T* arrElement;    // ptr vers element const non-mutable
                 size_t counter;    // Pour debug
 
+                // getter pour arrElement (debug)
+                const T* getArrElement() const {
+                    return arrElement;
+                }
+                // Getter pour counter (debug)
+                size_t getCounter() const {
+                    return counter;
+                }
+
+                friend class Array;    // Acces aux getter pour printArr
             public:
                 // Constructeur de base
                 ConstIterator(const T* arrElement) {
@@ -224,19 +238,12 @@ class Array {
                 }
 
                 void printConstIterator() const {
-                    std::cout << "Iterator info" << std::endl;
+                    std::cout << "ConstIterator info" << std::endl;
                     std::cout << "arrElement (T*): " << arrElement << std::endl;
                     std::cout << "*arrElement: " << *arrElement << std::endl;
+                    std::cout << "counter: " << counter << std::endl;
                 }
 
-                // getter pour arrElement (debug)
-                const T* getArrElement() const {
-                    return arrElement;
-                }
-                // Getter pour counter (debug)
-                size_t getCounter() const {
-                    return counter;
-                }
 
                 // Operateur dereference * qui ne permet pas la modification de la reference
                 const T& operator*() const {
