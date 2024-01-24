@@ -49,7 +49,9 @@ Le type abstrait `Array` est un tableau dynamique qui peut contenir des élémen
 **Classes membres d'itérateurs**
 On définie un `Iterator` et `ConstIterator` pour naviguer dans le conteneur `Array`. On utilise le `Iterator` pour modifier les éléments du conteneur `Array` et le `ConstIterator` pour parcourir le conteneur `Array` sans le modifier. Il est facile d'instantié un de ces itérateurs en utilisant les fonctions membres `begin()`, `end()`, `cbegin()` et `cend()`. À l'intérieur nous avons surcharger les opérateurs `++`, `*`, `==` et `!=` pour faciliter la navigation dans le conteneur `Array` en plus des constructeurs par défaut et par copie.
 
-**Fonctions de ''modification'' du conteneur `Array`**
+**Fonctions de 'manipulation' du conteneur `Array`**
+'Manipulation'car on ne modifie pas necessairement le conteneur `Array` ou celui de la reference passee en paramètre, mais c'est dans cettes fonctions que nous manipulons les éléments du conteneur `Array`.
+
 - `fill(T value)`: Remplie le conteneur `Array` avec la valeur de type T spécifiée. On utilise un `Iterator` pour parcourir le conteneur `Array` et remplacer les éléments par la valeur spécifiée.
 
 - `swap(Array& otherArr)`: Échange le contenu du conteneur `Array` avec le contenu du conteneur `Array` passé en paramètre. On utilise un `Iterator` pour parcourir les 2 conteneurs `Array` et échanger les éléments. Il s'agit d'un échange en temps constant car nous ne faisons qu'échanger les pointeurs `ARR` des 2 conteneurs `Array`. Aucun retour mais change le contenu des 2 Arrays impliques.
