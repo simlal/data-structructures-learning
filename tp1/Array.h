@@ -255,7 +255,7 @@ class Array {
                 ConstIterator operator++(int) {
                     ConstIterator temp = *this;
                     arrElement = arrElement + 1;
-                    counter++;a
+                    counter++;
 
 
                     return temp;    // copie de l'etat actuel avant incrementation
