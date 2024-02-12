@@ -22,7 +22,7 @@
 template <typename T>
 void vector<T>::clear()
 {
-    std::cout<<"fonction clear A VENIR"<<std::endl;
+    std::cout<<"sortie de portee de vector adresse=" << this << std::endl;
 }
 
 ///////////////////////////////////////////////////
@@ -68,24 +68,30 @@ void vector<T>::pop_back()
 template <typename T>
 T& vector<T>::operator[](size_t i)
 {
-    std::cout<<"operator[] A VENIR"<<std::endl;
+    return *(m_debut + i);
 }
 
 template <typename T>
 const T& vector<T>::operator[](size_t i)const
 {
-    std::cout<<"operator[]const A VENIR"<<std::endl;
+    return *(m_debut + i);
 }
 
 template <typename T>
 T& vector<T>::at(size_t i)
 {
-    std::cout<<"at A VENIR"<<std::endl;
+    if (i >= size() || i < 0) {
+        throw std::out_of_range("L'index est hors de la plage possible");
+    }
+    return *(m_debut + i);
 }
 template <typename T>
 const T& vector<T>::at(size_t i)const
 {
-    std::cout<<"at const A VENIR"<<std::endl;
+    if (size() >= i || i < 0) {
+        throw std::out_of_range("L'index est hors de la plage possible");
+    }
+    return *(m_debut + i);
 }
 
 
