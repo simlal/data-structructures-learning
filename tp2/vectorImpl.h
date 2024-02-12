@@ -62,7 +62,11 @@ void vector<T>::push_back(const T& x)
 template <typename T>
 void vector<T>::pop_back()
 {
-    std::cout<<"pop_back A VENIR"<<std::endl;
+    // Cas limite vecteur vide
+    if (empty()) {
+        throw std::out_of_range("Impossible d'enlever dernier element liste vide");
+    }
+    --m_finDim;    // Diminue la taille par la fin sans affecter capacite
 }
 
 template <typename T>
