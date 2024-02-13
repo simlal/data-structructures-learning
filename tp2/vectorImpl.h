@@ -22,7 +22,11 @@
 template <typename T>
 void vector<T>::clear()
 {
-    std::cout<<"sortie de portee de vector adresse=" << this << std::endl;
+    delete[] m_debut;
+    m_debut = nullptr;
+    m_finDim = nullptr;
+    m_finCap = nullptr;
+
 }
 
 ///////////////////////////////////////////////////
@@ -34,7 +38,7 @@ void vector<T>::resize(size_t nDIM)
     // Vecteur null size=0
     if (m_debut == nullptr) 
     {
-        
+
     }
 }
 
