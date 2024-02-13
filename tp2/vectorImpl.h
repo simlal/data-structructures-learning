@@ -32,8 +32,9 @@ template <typename T>
 void vector<T>::resize(size_t nDIM)
 {
     // Vecteur null size=0
-    if (m_debut == nullptr) {
-
+    if (m_debut == nullptr) 
+    {
+        
     }
 }
 
