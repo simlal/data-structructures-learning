@@ -31,7 +31,10 @@ void vector<T>::clear()
 template <typename T>
 void vector<T>::resize(size_t nDIM)
 {
-    std::cout<<"resize A VENIR"<<std::endl;
+    // Vecteur null size=0
+    if (m_debut == nullptr) {
+
+    }
 }
 
 
@@ -63,7 +66,8 @@ template <typename T>
 void vector<T>::pop_back()
 {
     // Cas limite vecteur vide
-    if (empty()) {
+    if (empty()) 
+    {
         throw std::out_of_range("Impossible d'enlever dernier element liste vide");
     }
     --m_finDim;    // Diminue la taille par la fin sans affecter capacite
@@ -84,7 +88,8 @@ const T& vector<T>::operator[](size_t i)const
 template <typename T>
 T& vector<T>::at(size_t i)
 {
-    if (i >= size() || i < 0) {
+    if (i >= size() || i < 0) 
+    {
         throw std::out_of_range("L'index est hors de la plage possible");
     }
     return *(m_debut + i);
@@ -92,7 +97,8 @@ T& vector<T>::at(size_t i)
 template <typename T>
 const T& vector<T>::at(size_t i)const
 {
-    if (size() >= i || i < 0) {
+    if (size() >= i || i < 0) 
+    {
         throw std::out_of_range("L'index est hors de la plage possible");
     }
     return *(m_debut + i);
