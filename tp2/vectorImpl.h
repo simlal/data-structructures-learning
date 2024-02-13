@@ -26,7 +26,6 @@ void vector<T>::clear()
     m_debut = nullptr;
     m_finDim = nullptr;
     m_finCap = nullptr;
-
 }
 
 ///////////////////////////////////////////////////
@@ -35,11 +34,24 @@ void vector<T>::clear()
 template <typename T>
 void vector<T>::resize(size_t nDIM)
 {
-    // Vecteur null size=0
+    // Resize pour un vecteur de dim 0
     if (m_debut == nullptr) 
     {
-
+        reserve(nDIM);
     }
+    // Pour agrandissement du vecteur 
+    else if (nDIM > size())
+    {
+        // Verification si capacite restante adequate
+        size_t required_space = nDIM - size();
+        size_t spare_space = m_finCap - m_finDim;
+        if (spare_space < required_space)
+        {
+            reserve(std::max(nDIM, 2 * size()))    // Reserve le +grand de nDIM ou 2*CAP precedente
+        }
+    }
+    // M-a-j de la dimension sans probleme de reserve
+    m_finDim = m_debut + nDIM;
 }
 
 
