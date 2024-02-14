@@ -35,7 +35,7 @@ template <typename T>
 void vector<T>::resize(size_t nDIM)
 {
     // Resize pour un vecteur de dim 0
-    if (m_debut == nullptr || nDIM == 0) 
+    if (nDIM == 0) 
     {
         reserve(nDIM);
     }
