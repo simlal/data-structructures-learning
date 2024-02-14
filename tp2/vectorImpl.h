@@ -136,7 +136,7 @@ const T& vector<T>::operator[](size_t i)const
 template <typename T>
 T& vector<T>::at(size_t i)
 {
-    if (i >= size() || i < 0) 
+    if (i >= size()) 
     {
         throw std::out_of_range("L'index est hors de la plage possible");
     }
@@ -145,7 +145,7 @@ T& vector<T>::at(size_t i)
 template <typename T>
 const T& vector<T>::at(size_t i)const
 {
-    if (size() >= i || i < 0) 
+    if (i >= size()) 
     {
         throw std::out_of_range("L'index est hors de la plage possible");
     }
