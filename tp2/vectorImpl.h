@@ -92,7 +92,15 @@ void vector<T>::reserve(size_t nCAP)
 template <typename T>
 void vector<T>::push_back(const T& x)
 {
-    std::cout<<"push_back A VENIR"<<std::endl;
+    // Augmente la capacite de 1 au besoin
+    size_t new_size = size() + 1;
+    if (m_finDim == m_finCap)
+    {
+        reserve(new_size);
+    }
+    // Ajustement dimension et ajout x en dernier
+    m_finDim = m_debut + new_size;
+    m_debut[new_size - 1] = x;
 }
 
 template <typename T>
