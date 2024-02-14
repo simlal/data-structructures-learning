@@ -51,6 +51,12 @@ void deque<T>::resize(size_t nSize)
 template <typename T>
 void deque<T>::reserve(size_t nCap)
 {
+    // Reset capacite a zero et liberation memoire
+    if (nCap == 0)
+    {
+        clear();
+        return;
+    }
 }
 
 template <typename T>
