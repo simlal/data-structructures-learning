@@ -35,7 +35,7 @@ template <typename T>
 void vector<T>::resize(size_t nDIM)
 {
     // Resize pour un vecteur de dim 0
-    if (m_debut == nullptr) 
+    if (m_debut == nullptr || nDIM == 0) 
     {
         reserve(nDIM);
     }
@@ -60,7 +60,14 @@ void vector<T>::resize(size_t nDIM)
 
 template <typename T>
 void vector<T>::reserve(size_t nCAP)
-{
+{   
+    // Reset de capacite a 0
+    if (nCAP == 0)
+    {
+        clear();
+        return;
+    }
+
     if (nCAP > m_finCap - m_debut)    // Compare capacite desiree vs existante 
     {
         T* new_debut = new T[nCAP];
