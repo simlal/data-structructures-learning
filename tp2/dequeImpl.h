@@ -38,21 +38,33 @@ void deque<T>::reserve(size_t nCap)
 template <typename T>
 T& deque<T>::operator[](size_t i)
 {
+    return *m_debut[m_zero + i];
 }
 
 template <typename T>
 T& deque<T>::at(size_t i)
 {
+    if (i >= size())
+    {
+        throw std::out_of_range("L'index est hors de la plage possible");
+    }
+    return *m_debut[m_zero + i];
 }
 
 template <typename T>
 const T& deque<T>::operator[](size_t i)const
 {
+    return *m_debut[m_zero + i];
 }
 
 template <typename T>
 const T& deque<T>::at(size_t i)const
 {
+    if (i >= size())
+    {
+        throw std::out_of_range("L'index est hors de la plage possible");
+    }
+    return *m_debut[m_zero + i];
 }
 
 template <typename T>
