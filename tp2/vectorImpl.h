@@ -47,7 +47,7 @@ void vector<T>::resize(size_t nDIM)
         size_t spare_space = m_finCap - m_finDim;
         if (spare_space < required_space)
         {
-            reserve(std::max(nDIM, 2 * size()))    // Reserve le +grand de nDIM ou 2*CAP precedente
+            reserve(std::max(nDIM, 2 * size()));    // Reserve le +grand de nDIM ou 2*CAP precedente
         }
     }
     // M-a-j de la dimension sans probleme de reserve
@@ -61,7 +61,22 @@ void vector<T>::resize(size_t nDIM)
 template <typename T>
 void vector<T>::reserve(size_t nCAP)
 {
-    std::cout<<"reserve A VENIR"<<std::endl;
+    if (nCAP > m_finCap - m_debut)    // Compare capacite desiree vs existante 
+    {
+        T* new_debut = new T[nCAP];
+        
+        // Copie dans le nouvel espace dynamique
+        for (size_t i=0; i < size(); i++) {
+            new_debut[i] = m_debut[i];
+        }
+
+        // Libere l'ancien espace memoire et ajustement du debut/capacite
+        size_t old_size = size();
+        clear();
+        m_debut = new_debut;
+        m_finDim = m_debut + old_size;
+        m_finCap = m_debut + nCAP;
+    }   
 }
 
 ///////////////////////////////////////////////////
