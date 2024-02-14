@@ -69,10 +69,11 @@ void vector<T>::reserve(size_t nCAP)
         for (size_t i=0; i < size(); i++) {
             new_debut[i] = m_debut[i];
         }
-
-        // Libere l'ancien espace memoire et ajustement du debut/capacite
-        size_t old_size = size();
-        clear();
+        
+        size_t old_size = size();    // Conserver la dimension originale
+        clear();    // Nettoyage pour eviter fuite de memoire
+        
+        // Changement d'adresse vecteur ajustement capacite
         m_debut = new_debut;
         m_finDim = m_debut + old_size;
         m_finCap = m_debut + nCAP;
