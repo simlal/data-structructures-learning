@@ -70,7 +70,7 @@ void deque<T>::resize(size_t nSize)
         for (i = nSize; i < m_size; ++i)
         {
             j = (m_cap + i - m_zero) % m_cap;    // Calcul index dans deque prp zero/cap
-            delete[] m_debut[j];
+            delete m_debut[j];
             m_debut[j] = nullptr;
         }
     }
@@ -98,7 +98,7 @@ void deque<T>::reserve(size_t nCap)
         size_t i, j;
         for (i = 0; i < m_size; i++)
         {
-            j = (m_cap + i - m_zero) % m_cap;    // Calcul index dans deque prp zero/cap
+            j = (m_zero + i) % m_cap;    // Calcul index dans deque prp zero/cap
             new_debut[i] = new T(*m_debut[j]);
         }
         for (i = m_size; i < nCap; i++)
