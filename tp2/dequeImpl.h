@@ -162,10 +162,10 @@ void deque<T>::pop_back()
 {
     if (empty()) 
     {
-        throw std::out_of_range("Impossible d'enlever dernier element liste vide");
+        throw std::out_of_range("Impossible d'enlever dernier element deque vide");
     }
     // Nettoyage du dernier element
-    size_t last_ele = (m_cap + (m_size - 1) - m_zero) % m_cap;    // Calcul index dans deque prp zero/cap
+    size_t last_ele = (m_cap + (m_size - 1) - m_zero) % m_cap;    // Index deque prp zero/cap
     delete m_debut[last_ele];
     m_debut[last_ele] = nullptr;
     
