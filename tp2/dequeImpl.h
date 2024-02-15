@@ -46,6 +46,35 @@ deque<T>::deque(const deque& source)
 template <typename T>
 void deque<T>::resize(size_t nSize)
 {
+    // Clear pour resize de dim 0
+    if (nSize == 0)
+    {
+        reserve(nSize);
+    }
+    
+    // Agrandissement du deque
+    else if (nSize > m_size)
+    {
+        size_t required_space = nSize - m_size;
+        size_t spare_space = m_cap - m_size;
+        if (spare_space <= required_space)
+        {
+            reserve(nSize + 1);    // Conserver tampon de +1
+        }
+    }
+
+    // Reduction de la taille du deque
+    else if (nSize < m_size)
+    {   
+        for (size_t i = nSize; i < m_size; ++i)
+        {
+            delete[] m_debut[(m_zero + i) % m_cap];
+            m_debut[(m_zero + i) % m_cap] = nullptr;
+        }
+    }
+    
+    // M-a-j de la dimension sans probleme de capacite
+    m_size = nSize;
 }
 
 template <typename T>
