@@ -66,10 +66,12 @@ void deque<T>::resize(size_t nSize)
     // Reduction de la taille du deque
     else if (nSize < m_size)
     {   
-        for (size_t i = nSize; i < m_size; ++i)
+        size_t i, j;
+        for (i = nSize; i < m_size; ++i)
         {
-            delete[] m_debut[(m_zero + i) % m_cap];
-            m_debut[(m_zero + i) % m_cap] = nullptr;
+            j = (m_cap + i - m_zero) % m_cap;    // Calcul index dans deque prp zero/cap
+            delete[] m_debut[j];
+            m_debut[j] = nullptr;
         }
     }
     
@@ -158,6 +160,11 @@ void deque<T>::push_back(const T& val)
 template <typename T>
 void deque<T>::pop_back()
 {
+    if (empty()) 
+    {
+        throw std::out_of_range("Impossible d'enlever dernier element liste vide");
+    }
+    
 }
 
 template <typename T>
