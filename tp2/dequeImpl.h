@@ -86,12 +86,42 @@ void deque<T>::reserve(size_t nCap)
         clear();
         return;
     }
+
+    if (nCap > m_cap)
+    {
+        // Nouveau array pointeurs T* de avec nouvelle capacite
+        T** new_debut = new T*[nCap];
+
+        // Copie des pointeurs existants
+        size_t i, j;
+        for (i = 0; i < m_size; i++)
+        {
+            j = (m_cap + i - m_zero) % m_cap;    // Calcul index dans deque prp zero/cap
+            new_debut[i] = new T(*m_debut[j]);
+        }
+        for (i = m_size; i < nCap; i++)
+        {
+            new_debut[i] = nullptr;
+            // new_debut[i] = new T();    // Pour debug
+        }
+
+        // Copie des attributs precedents
+        size_t old_size = m_size;
+        size_t old_zero = m_zero;
+
+        // Nettoyage et reassignation des proprietes
+        clear();
+        m_debut = new_debut;
+        m_size = old_size;
+        m_zero = 0;
+        m_cap = nCap;
+    }
 }
 
 template <typename T>
 T& deque<T>::operator[](size_t i)
 {
-    return *m_debut[m_zero + i];
+    return *m_debut[(m_zero + i) % m_cap];
 }
 
 template <typename T>
@@ -101,13 +131,13 @@ T& deque<T>::at(size_t i)
     {
         throw std::out_of_range("L'index est hors de la plage possible");
     }
-    return *m_debut[m_zero + i];
+    return *m_debut[(m_zero + i) % m_cap];
 }
 
 template <typename T>
 const T& deque<T>::operator[](size_t i)const
 {
-    return *m_debut[m_zero + i];
+    return *m_debut[(m_zero + i) % m_cap];
 }
 
 template <typename T>
@@ -117,7 +147,7 @@ const T& deque<T>::at(size_t i)const
     {
         throw std::out_of_range("L'index est hors de la plage possible");
     }
-    return *m_debut[m_zero + i];
+    return *m_debut[(m_zero + i) % m_cap];
 }
 
 template <typename T>
