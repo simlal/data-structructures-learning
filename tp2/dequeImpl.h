@@ -180,6 +180,17 @@ void deque<T>::push_front(const T& val)
 template <typename T>
 void deque<T>::pop_front()
 {
+    if (empty()) 
+    {
+        throw std::out_of_range("Impossible d'enlever le premier element d'un deque vide");
+    }
+    // Nettoyage de la mem a ancien zero
+    delete m_debut[m_zero];
+    m_debut[m_zero] = nullptr;
+    
+    // Deplacement/diminution du deque
+    m_zero = (m_zero + 1) % m_cap;
+    m_size--;
 }
 
 
