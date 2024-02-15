@@ -52,14 +52,22 @@ void deque<T>::resize(size_t nSize)
         reserve(nSize);
     }
     
-    // Agrandissement du deque
+    // Agrandissement de dimension
     else if (nSize > m_size)
     {
-        size_t required_space = nSize - m_size;
-        size_t spare_space = m_cap - m_size;
+        size_t required_space, spare_space, i, j;
+        // Reserve nouvelle capacite au besoin
+        required_space = nSize - m_size;
+        spare_space = m_cap - m_size;
         if (spare_space <= required_space)
         {
             reserve(nSize + 1);    // Conserver tampon de +1
+        }
+        // Remplir la nouvelle dimension avec T() vide
+        for (i = m_size; i < nSize; i++)
+        {
+            j = (m_zero + i) % m_cap;    // Calcul index dans deque prp zero/cap
+            m_debut[j] = new T();
         }
     }
 
@@ -69,7 +77,7 @@ void deque<T>::resize(size_t nSize)
         size_t i, j;
         for (i = nSize; i < m_size; ++i)
         {
-            j = (m_cap + i - m_zero) % m_cap;    // Calcul index dans deque prp zero/cap
+            j = (m_zero + i) % m_cap;    // Calcul index dans deque prp zero/cap
             delete m_debut[j];
             m_debut[j] = nullptr;
         }
@@ -104,7 +112,6 @@ void deque<T>::reserve(size_t nCap)
         for (i = m_size; i < nCap; i++)
         {
             new_debut[i] = nullptr;
-            // new_debut[i] = new T();    // Pour debug
         }
 
         // Copie des attributs precedents
