@@ -162,6 +162,11 @@ const T& deque<T>::at(size_t i)const
 template <typename T>
 void deque<T>::push_back(const T& val)
 {
+    resize(m_size + 1);
+    
+    // Ajout de val a index du dernier element
+    size_t last_ele = (m_zero + m_size - 1) % m_cap;
+    *m_debut[last_ele] = val;
 }
 
 template <typename T>
@@ -172,7 +177,7 @@ void deque<T>::pop_back()
         throw std::out_of_range("Impossible d'enlever dernier element deque vide");
     }
     // Nettoyage du dernier element
-    size_t last_ele = (m_cap + (m_size - 1) - m_zero) % m_cap;    // Index deque prp zero/cap
+    size_t last_ele = (m_zero + m_size - 1) % m_cap;    // Index dernier element
     delete m_debut[last_ele];
     m_debut[last_ele] = nullptr;
     
@@ -182,6 +187,16 @@ void deque<T>::pop_back()
 template <typename T>
 void deque<T>::push_front(const T& val)
 {
+    resize(m_size + 1);
+    // Decaler le deque vers la droite
+    for (size_t i = m_size - 1; i > 0; --i)
+    {
+        size_t courant = (m_zero + i) % m_cap;
+        size_t precedent = (m_zero + i - 1) % m_cap;
+        *m_debut[courant] = *m_debut[precedent];
+    }
+    // Ajouter le nouvel ele au debut
+    *m_debut[m_zero] = val;
 }
 
 template <typename T>
