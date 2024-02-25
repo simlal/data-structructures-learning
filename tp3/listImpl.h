@@ -7,8 +7,8 @@
 //  Modifie par : Vincent Ducharme, Automne 2022
 //
 //  Devoir fait par
-//     Coéquipier 1 :
-//     Coéquipier 2 :
+//     Coï¿½quipier 1 : Simon Lalonde (lals2906)
+//     Coï¿½quipier 2 :
 
 #ifndef listImpl_h
 #define listImpl_h
@@ -20,6 +20,20 @@
 template <typename TYPE>
 typename list<TYPE>::cellule* list<TYPE>::insert(cellule* c, const TYPE& VAL)
 {
+    cellule* new_cell = new cellule(VAL, c, c->m_prec);     // pointeurs suiv-prec OK pour new_cell
+
+    // Ajustement en fonction de c tete ou non 
+    if (c->m_prec)
+    {
+        c->m_prec->m_suiv = new_cell;
+    }
+    else
+    {
+        m_debut = new_cell;     // m-a-j de la tete de liste
+    }
+    c->m_prec = new_cell;
+
+    m_size++;
 }
 
 template <typename TYPE>
