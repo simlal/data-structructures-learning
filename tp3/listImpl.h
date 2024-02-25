@@ -39,6 +39,26 @@ typename list<TYPE>::cellule* list<TYPE>::insert(cellule* c, const TYPE& VAL)
 template <typename TYPE>
 typename list<TYPE>::cellule* list<TYPE>::erase(cellule* c)
 {
+    // Tout sauf debut
+    if (c->m_prec)
+    {
+        c->m_prec->m_suiv = c->m_suiv;    // pont entre prec et suiv
+    }
+    else    // Efface tete et ajustement
+    {
+        m_debut = c->m_suiv;
+    }
+    // Tout sauf la fin
+    if (c->m_suiv)
+    {
+        c->m_suiv->m_prec = c->m_prec;
+    }
+    
+    // Nettoyage memoire et maj taille
+    cellule* next_cell = c->m_suiv;
+    delete c;
+    m_size--;
+    return next_cell;
 }
 
 
