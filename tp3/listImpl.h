@@ -22,7 +22,7 @@ typename list<TYPE>::cellule* list<TYPE>::insert(cellule* c, const TYPE& VAL)
 {
     cellule* new_cell = new cellule(VAL, c, c->m_prec);     // pointeurs suiv-prec OK pour new_cell
 
-    if (c->m_prec)    // Cas general
+    if (c->m_prec)    // Cas general != en tete
     {
         c->m_prec->m_suiv = new_cell;
     }
@@ -53,7 +53,7 @@ typename list<TYPE>::cellule* list<TYPE>::erase(cellule* c)
     {
         c->m_suiv->m_prec = c->m_prec;
     }
-    
+
     // Nettoyage memoire et maj taille
     cellule* next_cell = c->m_suiv;
     delete c;
