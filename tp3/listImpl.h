@@ -22,18 +22,18 @@ typename list<TYPE>::cellule* list<TYPE>::insert(cellule* c, const TYPE& VAL)
 {
     cellule* new_cell = new cellule(VAL, c, c->m_prec);     // pointeurs suiv-prec OK pour new_cell
 
-    // Ajustement en fonction de c tete ou non 
-    if (c->m_prec)
+    if (c->m_prec)    // Cas general
     {
         c->m_prec->m_suiv = new_cell;
     }
-    else
+    else    // Insertion au debut
     {
         m_debut = new_cell;     // m-a-j de la tete de liste
     }
     c->m_prec = new_cell;
 
     m_size++;
+    return new_cell;
 }
 
 template <typename TYPE>
