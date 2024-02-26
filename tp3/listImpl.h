@@ -22,13 +22,13 @@ typename list<TYPE>::cellule* list<TYPE>::insert(cellule* c, const TYPE& VAL)
 {
     cellule* new_cell = new cellule(VAL, c, c->m_prec);     // pointeurs suiv-prec OK pour new_cell
 
-    if (c->m_prec)    // Cas general != en tete
+    if (c->m_prec)    // Cas general
     {
-        c->m_prec->m_suiv = new_cell;
+        c->m_prec->m_suiv = new_cell;    // lien avant 'c'
     }
-    else    // Insertion au debut
+    else    // 'c' en debut de liste non-vide ou liste vide
     {
-        m_debut = new_cell;     // m-a-j de la tete de liste
+        m_debut = new_cell;
     }
     c->m_prec = new_cell;
 
