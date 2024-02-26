@@ -75,8 +75,8 @@ class list<TYPE>::reverse_iterator
     reverse_iterator() = default;
     reverse_iterator(cellule *c) :m_pointeur(c) {}
 public:
-    TYPE& operator*()const;
-    TYPE* operator->()const;
+    TYPE& operator*()const { return m_pointeur->m_prec->m_contenu; }
+    TYPE* operator->()const { return &(m_pointeur->m_prec->m_contenu); }
     reverse_iterator& operator++(); //++i
     reverse_iterator operator++(int); //i++
     reverse_iterator& operator--(); //--i
@@ -86,13 +86,61 @@ public:
 };
 
 template <typename TYPE>
+typename list<TYPE>::reverse_iterator& list<TYPE>::reverse_iterator::operator++()
+{ 
+    // ++i
+    m_pointeur = m_pointeur->m_prec;
+    return *this;
+}
+
+template <typename TYPE>
+typename list<TYPE>::reverse_iterator list<TYPE>::reverse_iterator::operator++(int)
+{ 
+    // i++
+    list<TYPE>::reverse_iterator copy_iter = *this;    // copie de this
+    operator++();
+    return copy_iter;
+}
+
+template <typename TYPE>
+typename list<TYPE>::reverse_iterator& list<TYPE>::reverse_iterator::operator--()
+{ 
+    // --i
+    m_pointeur = m_pointeur->m_suiv;
+    return *this;
+}
+
+template <typename TYPE>
+typename list<TYPE>::reverse_iterator list<TYPE>::reverse_iterator::operator--(int)
+{ 
+    // i--
+    list<TYPE>::reverse_iterator copy_iter = *this;    // copie de this
+    operator--();
+    return copy_iter;
+}
+
+template <typename TYPE>
+bool list<TYPE>::reverse_iterator::operator==(const list<TYPE>::reverse_iterator& droite) const
+{
+    return m_pointeur == droite.m_pointeur;
+}
+
+template <typename TYPE>
+bool list<TYPE>::reverse_iterator::operator!=(const list<TYPE>::reverse_iterator& droite) const
+{
+    return !(*this == droite);
+}
+
+template <typename TYPE>
 typename list<TYPE>::reverse_iterator list<TYPE>::rbegin()
 {
+    return reverse_iterator(&m_apres);    // la cellule de queue
 }
 
 template <typename TYPE>
 typename list<TYPE>::reverse_iterator list<TYPE>::rend()
 {
+    return reverse_iterator(m_debut);    // la tete de la liste
 }
 
 ///////////////////////////////////////////////////////////
