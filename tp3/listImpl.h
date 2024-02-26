@@ -180,8 +180,35 @@ list<TYPE>& list<TYPE>::operator=(const list<TYPE>& droite)
 template <typename TYPE>
 void list<TYPE>::reverse()
 {
+    if (m_debut == nullptr || m_size <= 1) // Pas d'inversion pour liste vide ou 1 ele
+    {
+        return;
+    }
 
+    cellule* temp = nullptr;
+    cellule* current_c = nullptr;
+    list<TYPE>::iterator i_end = end();
+    
+    for (list<TYPE>::iterator i = begin(); i != i_end;)
+    {
+        // Echange des pointeurs suiv/prec en utilisant temp
+        current_c = i.m_pointeur;
+        temp = current_c->m_prec;
+        current_c->m_prec = current_c->m_suiv;
+        current_c->m_suiv = temp;
+
+        i = current_c->m_prec; // Bouge iterateur en fonction de liste dans ordre original
+    }
+
+    // Copie debut et ajustement de tete
+    temp = m_debut;
+    m_debut = m_apres.m_prec;
+    m_debut->m_prec = nullptr;
+
+    // Ajustement de la queue
+    m_apres.m_prec = temp;    // l'ancienne tete maintenant fin
+    m_apres.m_prec->m_suiv = &m_apres;    // Ajustement de m_suiv pour dernier ele
+    m_apres.m_suiv = nullptr;
 }
-
 
 #endif // listImpl_h
