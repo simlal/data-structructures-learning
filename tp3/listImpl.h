@@ -150,6 +150,25 @@ typename list<TYPE>::reverse_iterator list<TYPE>::rend()
 template <typename TYPE>
 list<TYPE>& list<TYPE>::operator=(const list<TYPE>& droite)
 {
+    if (this != &droite)    // Prevention re-assignation de sois
+    {
+        // Nettoyage memoire des cellules
+        for (list<TYPE>::iterator i = begin(); i != end();)
+        {
+            cellule* to_delete = i.m_pointeur;    // Sauvegarde position actuelle avant incrementation
+            ++i;
+            delete to_delete;
+        }
+        // Reset liste vide
+        m_debut = nullptr;
+        m_size = 0;
+
+        // Copie et re-assignation
+        for (list<TYPE>::const_iterator i = droite.begin(); i != droite.end(); ++i)
+        {
+            push_back(*i);    // S'occupe d'ajuster m_debut et m_size
+        }
+    }
     return *this;
 }
 
@@ -161,6 +180,7 @@ list<TYPE>& list<TYPE>::operator=(const list<TYPE>& droite)
 template <typename TYPE>
 void list<TYPE>::reverse()
 {
+
 }
 
 
