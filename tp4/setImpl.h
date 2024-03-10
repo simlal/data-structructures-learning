@@ -5,10 +5,10 @@
 //  Jean Goulet 2017
 //
 //  Devoir fait par
-//     Coéquipier 1 :
-//     Coéquipier 2 :
+//     Coï¿½quipier 1 : Simon Lalonde - lals2906
+//     Coï¿½quipier 2 :
 //
-
+#include "set.h"
 #ifndef SkipList_set2_h
 #define SkipList_set2_h
 
@@ -28,7 +28,7 @@ set<TYPE>::~set()
 
 /////////////////////////////////////////////////////////////////
 // find
-// localise un élément, retourne la fin si absent
+// localise un ï¿½lï¿½ment, retourne la fin si absent
 
 template <typename TYPE>
 typename set<TYPE>::iterator set<TYPE>::find(const TYPE& x) const
