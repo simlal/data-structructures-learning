@@ -5,7 +5,7 @@
 *  Cette version integre la rustine
 *  set<TYPE>::to_string pour remplacer std::to_string
 *
-*  Modifié par : Vincent Ducharme, Automne 2022
+*  Modifiï¿½ par : Vincent Ducharme, Automne 2022
 */
 
 #pragma once
@@ -238,9 +238,9 @@ size_t set<TYPE>::tirer_couches_au_hasard()
     //prob 1/4 d'avoir 2
     //prob 1/8 d'avoir 3 etc.
     //
-    // Si vous voulez gnrer la mme squence pour vos tests, vous pouvez modifier la valeur de seed pour qu'elle soit gale ˆ 0
-    // static auto seed = 0;
-    static auto seed = std::chrono::system_clock::now().time_since_epoch().count();
+    // Si vous voulez gï¿½nï¿½rer la mï¿½me sï¿½quence pour vos tests, vous pouvez modifier la valeur de seed pour qu'elle soit ï¿½gale ï¿½ 0
+    static auto seed = 0;
+    // static auto seed = std::chrono::system_clock::now().time_since_epoch().count();
     static std::minstd_rand0 generator(static_cast<unsigned int>(seed));
     size_t i = 1;
     auto g = generator();
@@ -308,7 +308,7 @@ size_t set<TYPE>::count(const TYPE& t)const
 
 /////////////////////////////////////////////////
 // les trois fonctions d'insertion
-// deux fonctions publiques et une fonction privée
+// deux fonctions publiques et une fonction privï¿½e
 
 template <typename TYPE>
 std::pair<typename set<TYPE>::iterator, bool> set<TYPE>::insert(const TYPE& val)
