@@ -75,6 +75,7 @@ set<TYPE>::set(const set<TYPE>& src)
 template <typename TYPE>
 set<TYPE>::~set()
 {
+    clear();
 }
 
 /////////////////////////////////////////////////////////////////
