@@ -44,11 +44,11 @@ set<TYPE>::set(const set<TYPE>& src)
     {
         cellule *srcCell = sit.m_pointeur;
         cellule *copieCell = srcVersCopie[srcCell];
-        for (int i = 0; i < srcCell->m_suiv.size(); i++)
+        for (size_t i = 0; i < srcCell->m_suiv.size(); i++)
         {
             copieCell->m_suiv[i] = srcVersCopie[srcCell->m_suiv[i]];
         }
-        for (int i = 0; i < srcCell->m_prec.size(); i++)
+        for (size_t i = 0; i < srcCell->m_prec.size(); i++)
         {
             copieCell->m_prec[i] = srcVersCopie[srcCell->m_prec[i]];
         }
@@ -58,12 +58,12 @@ set<TYPE>::set(const set<TYPE>& src)
     apresCopie->m_prec.resize(apresSrc->m_prec.size());
     
     // M-a-j des vecteurs pointeurs m_suiv de cell frontiere avant
-    for (int i = 0; i < src.m_avant->m_suiv.size(); i++)
+    for (size_t i = 0; i < src.m_avant->m_suiv.size(); i++)
     {
         m_avant->m_suiv[i] = srcVersCopie[src.m_avant->m_suiv[i]];
     }
     // M-a-j des vecteurs pointeurs m_prec de cell frontiere apres
-    for (int i = 0; i < apresSrc->m_prec.size(); i++)
+    for (size_t i = 0; i < apresSrc->m_prec.size(); i++)
     {
         apresCopie->m_prec[i] = srcVersCopie[apresSrc->m_prec[i]];
     }
