@@ -87,7 +87,6 @@ typename set<TYPE>::iterator set<TYPE>::find(const TYPE& x) const
 {
     int niveau = m_avant->m_suiv.size() - 1;
     cellule* c = m_avant;
-    std::cout << &c << std::endl;
 
     while (niveau >= 0)
     {
@@ -119,17 +118,44 @@ typename set<TYPE>::iterator set<TYPE>::find(const TYPE& x) const
 // localise la premiere position ou l'element n'est
 // pas plus petit que celui recu en parametre
 
+// template <typename TYPE>
+// typename set<TYPE>::iterator set<TYPE>::lower_bound(const TYPE& t) const
+// {
+//     cellule *c = m_avant;
+//     cellule *apres = m_avant->m_prec[0];
+// 	while(c->m_suiv[0] != apres)
+// 		if(*c->m_suiv[0]->m_contenu < t)
+// 			c = c->m_suiv[0];
+// 		else
+// 			break;
+// 	return iterator(c->m_suiv[0]);
+// }
+
+// lower_bound en temps log n
+// localise la premiere position ou l'element n'est
+// pas plus petit que celui recu en parametre
 template <typename TYPE>
 typename set<TYPE>::iterator set<TYPE>::lower_bound(const TYPE& t) const
 {
-    cellule *c = m_avant;
-    cellule *apres = m_avant->m_prec[0];
-	while(c->m_suiv[0] != apres)
-		if(*c->m_suiv[0]->m_contenu < t)
-			c = c->m_suiv[0];
-		else
-			break;
-	return iterator(c->m_suiv[0]);
+    int niveau = m_avant->m_suiv.size() - 1;
+    cellule* c = m_avant;
+
+    while (niveau >= 0)
+    {
+        while (c->m_suiv[niveau]->m_contenu != nullptr)
+        {
+            if (*(c->m_suiv[niveau]->m_contenu) < t)
+            {
+                c = c->m_suiv[niveau];
+            }
+            else
+            {
+                break;
+            }
+        }
+        niveau--;
+    }    
+    return iterator(c->m_suiv[0]);    // retourne tjrs suivant comparativement a find
 }
 
 template <typename TYPE>
