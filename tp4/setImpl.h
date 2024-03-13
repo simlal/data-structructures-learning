@@ -91,14 +91,13 @@ typename set<TYPE>::iterator set<TYPE>::find(const TYPE& x) const
 
     while (niveau >= 0)
     {
-        std::cout << "niv=" << niveau << std::endl;
+        // if imbrique dans while car != dereference nullptr possible
         while (c->m_suiv[niveau]->m_contenu != nullptr)
         {
             // Allez vers droite si la valeur est plus petite
             if (*(c->m_suiv[niveau]->m_contenu) < x)
             {
                 c = c->m_suiv[niveau];
-                std::cout << *c->m_contenu << std::endl;
             }
             else
             {
@@ -111,10 +110,8 @@ typename set<TYPE>::iterator set<TYPE>::find(const TYPE& x) const
     // Suivant == fin ou plus grand, on retourne la fin car introuvable
     if (c->m_suiv[0]->m_contenu == nullptr || x < *(c->m_suiv[0]->m_contenu))
     {
-        // std::cout << "introuvable" << std::endl;
         return end();
     }
-    // std::cout << "trouve" << std::endl;
     return iterator(c->m_suiv[0]);
 }
 
