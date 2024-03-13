@@ -161,6 +161,31 @@ typename set<TYPE>::iterator set<TYPE>::lower_bound(const TYPE& t) const
 template <typename TYPE>
 typename set<TYPE>::iterator set<TYPE>::upper_bound(const TYPE& x) const
 {
+    int niveau = m_avant->m_suiv.size() - 1;
+    cellule* c = m_avant;
+
+    while (niveau >= 0)
+    {
+        while (c->m_suiv[niveau]->m_contenu != nullptr)
+        {
+            if (*(c->m_suiv[niveau]->m_contenu) < x)
+            {
+                c = c->m_suiv[niveau];
+            }
+            else
+            {
+                break;
+            }
+        }
+        niveau--;
+    }
+    // Suivant == fin ou plus grand on retourne le suivant
+    if (c->m_suiv[0]->m_contenu == nullptr || x < *(c->m_suiv[0]->m_contenu))
+    {
+        return iterator(c->m_suiv[0]);
+    }
+    // Suivant est necessairement x
+    return iterator(c->m_suiv[0]->m_suiv[0]);
 }
 
 /////////////////////////////////////////////////////////////////
