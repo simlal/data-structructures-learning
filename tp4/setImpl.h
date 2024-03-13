@@ -195,6 +195,18 @@ typename set<TYPE>::iterator set<TYPE>::upper_bound(const TYPE& x) const
 template <typename TYPE>
 size_t set<TYPE>::erase(const TYPE& VAL)
 {
+    iterator it = find(VAL);
+    if (it == end())
+    {
+        return 0;
+    
+    }
+    else
+    {
+        erase(it);
+        return 1;
+    }
+
 }
 
 // erase(it)
