@@ -75,7 +75,17 @@ set<TYPE>::set(const set<TYPE>& src)
 template <typename TYPE>
 set<TYPE>::~set()
 {
+    // Revenir au set vide
     clear();
+
+    // Nettoyage des cellules frontieres
+    m_avant->m_suiv[0] = nullptr;
+    m_avant->m_prec[0]->m_prec[0] = nullptr;
+    delete m_avant->m_prec[0];    // libere apres
+    
+    m_avant->m_prec[0] = nullptr;
+    delete m_avant;
+    m_avant = nullptr;
 }
 
 /////////////////////////////////////////////////////////////////
