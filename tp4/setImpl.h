@@ -15,61 +15,74 @@
 /////////////////////////////////////////////////////////////////
 // copieur et destructeur de liste
 
+// Version qui garde la representation du set
+// En utilisant un map pour faire la correspondance entre src et this
+
+// template <typename TYPE>
+// set<TYPE>::set(const set<TYPE>& src)
+//     : set()
+// {
+//     // Utilisation map pour correspondance src/this
+//     std::unordered_map<cellule*, cellule*> srcVersCopie;
+
+//     // M-a-j des pointeurs de debut et fin initialisee a null deja
+//     srcVersCopie[src.m_avant] = m_avant;
+//     cellule* apresSrc = src.m_avant->m_prec[0];
+//     cellule* apresCopie = m_avant->m_prec[0];
+//     srcVersCopie[apresSrc] = apresCopie;    // ptr vers cellule frontiere apres
+
+//     // Copie profonde des elements du set src
+//     for (auto sit = src.begin(); sit != src.end(); ++sit)
+//     {
+//         cellule *srcCell = sit.m_pointeur;
+//         cellule *copieCell = new cellule(new TYPE(*sit));
+//         // Conserve la taille des vecteurs pointeurs
+//         copieCell->m_suiv.resize(srcCell->m_suiv.size());
+//         copieCell->m_prec.resize(srcCell->m_prec.size());
+//         srcVersCopie[srcCell] = copieCell;
+//     }
+
+//     // M-a-j des vecteurs pointeurs de chaque cellule du set
+//     for (auto sit = src.begin(); sit != src.end(); ++sit)
+//     {
+//         cellule *srcCell = sit.m_pointeur;
+//         cellule *copieCell = srcVersCopie[srcCell];
+//         for (size_t i = 0; i < srcCell->m_suiv.size(); i++)
+//         {
+//             copieCell->m_suiv[i] = srcVersCopie[srcCell->m_suiv[i]];
+//         }
+//         for (size_t i = 0; i < srcCell->m_prec.size(); i++)
+//         {
+//             copieCell->m_prec[i] = srcVersCopie[srcCell->m_prec[i]];
+//         }
+//     }
+//     // Redimensionnement des vecteurs pointeurs de la cellule frontiere
+//     m_avant->m_suiv.resize(src.m_avant->m_suiv.size());
+//     apresCopie->m_prec.resize(apresSrc->m_prec.size());
+    
+//     // M-a-j des vecteurs pointeurs m_suiv de cell frontiere avant
+//     for (size_t i = 0; i < src.m_avant->m_suiv.size(); i++)
+//     {
+//         m_avant->m_suiv[i] = srcVersCopie[src.m_avant->m_suiv[i]];
+//     }
+//     // M-a-j des vecteurs pointeurs m_prec de cell frontiere apres
+//     for (size_t i = 0; i < apresSrc->m_prec.size(); i++)
+//     {
+//         apresCopie->m_prec[i] = srcVersCopie[apresSrc->m_prec[i]];
+//     }
+
+//     m_size = src.m_size;    // M-a-j de la taille
+// }
+
+// Copieur qui garde ne garde pas la representation
 template <typename TYPE>
 set<TYPE>::set(const set<TYPE>& src)
     : set()
 {
-    // Utilisation map pour correspondance src/this
-    std::unordered_map<cellule*, cellule*> srcVersCopie;
-
-    // M-a-j des pointeurs de debut et fin initialisee a null deja
-    srcVersCopie[src.m_avant] = m_avant;
-    cellule* apresSrc = src.m_avant->m_prec[0];
-    cellule* apresCopie = m_avant->m_prec[0];
-    srcVersCopie[apresSrc] = apresCopie;    // ptr vers cellule frontiere apres
-
-    // Copie profonde des elements du set src
-    for (auto sit = src.begin(); sit != src.end(); ++sit)
-    {
-        cellule *srcCell = sit.m_pointeur;
-        cellule *copieCell = new cellule(new TYPE(*sit));
-        // Conserve la taille des vecteurs pointeurs
-        copieCell->m_suiv.resize(srcCell->m_suiv.size());
-        copieCell->m_prec.resize(srcCell->m_prec.size());
-        srcVersCopie[srcCell] = copieCell;
+    // Utilisation insert pour copie profonde
+    for (iterator it = src.begin(); it != src.end(); ++it) {
+        insert(*it);
     }
-
-    // M-a-j des vecteurs pointeurs de chaque cellule du set
-    for (auto sit = src.begin(); sit != src.end(); ++sit)
-    {
-        cellule *srcCell = sit.m_pointeur;
-        cellule *copieCell = srcVersCopie[srcCell];
-        for (size_t i = 0; i < srcCell->m_suiv.size(); i++)
-        {
-            copieCell->m_suiv[i] = srcVersCopie[srcCell->m_suiv[i]];
-        }
-        for (size_t i = 0; i < srcCell->m_prec.size(); i++)
-        {
-            copieCell->m_prec[i] = srcVersCopie[srcCell->m_prec[i]];
-        }
-    }
-    // Redimensionnement des vecteurs pointeurs de la cellule frontiere
-    m_avant->m_suiv.resize(src.m_avant->m_suiv.size());
-    apresCopie->m_prec.resize(apresSrc->m_prec.size());
-    
-    // M-a-j des vecteurs pointeurs m_suiv de cell frontiere avant
-    for (size_t i = 0; i < src.m_avant->m_suiv.size(); i++)
-    {
-        m_avant->m_suiv[i] = srcVersCopie[src.m_avant->m_suiv[i]];
-    }
-    // M-a-j des vecteurs pointeurs m_prec de cell frontiere apres
-    for (size_t i = 0; i < apresSrc->m_prec.size(); i++)
-    {
-        apresCopie->m_prec[i] = srcVersCopie[apresSrc->m_prec[i]];
-    }
-
-    m_size = src.m_size;    // M-a-j de la taille
-
 }
 
 template <typename TYPE>
@@ -158,14 +171,12 @@ size_t set<TYPE>::erase(const TYPE& VAL)
     if (it == end())
     {
         return 0;
-    
     }
     else
     {
         erase(it);
         return 1;
     }
-
 }
 
 // erase(it)
