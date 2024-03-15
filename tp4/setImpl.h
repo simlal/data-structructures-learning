@@ -6,7 +6,7 @@
 //
 //  Devoir fait par
 //     Co�quipier 1 : Simon Lalonde - lals2906
-//     Co�quipier 2 :
+//     Co�quipier 2 : Charles Truax - truc1403
 //
 #include <unordered_map>
 #ifndef SkipList_set2_h
@@ -95,51 +95,16 @@ set<TYPE>::~set()
 template <typename TYPE>
 typename set<TYPE>::iterator set<TYPE>::find(const TYPE& x) const
 {
-    int niveau = m_avant->m_suiv.size() - 1;
-    cellule* c = m_avant;
-
-    while (niveau >= 0)
-    {
-        // if imbrique dans while car != dereference nullptr possible
-        while (c->m_suiv[niveau]->m_contenu != nullptr)
-        {
-            // Allez vers droite si la valeur est plus petite
-            if (*(c->m_suiv[niveau]->m_contenu) < x)
-            {
-                c = c->m_suiv[niveau];
-            }
-            else
-            {
-                break;
-            }
-        }
-        niveau--;
-    // element en sortie de portee est le precedent de l'element recherche
-    }    
+    // Localise element precedent
+    cellule* c = lower_bound(x).m_pointeur;
+    
     // Suivant == fin ou plus grand, on retourne la fin car introuvable
-    if (c->m_suiv[0]->m_contenu == nullptr || x < *(c->m_suiv[0]->m_contenu))
+    if (c->m_contenu == nullptr || x < *c->m_contenu)
     {
         return end();
     }
-    return iterator(c->m_suiv[0]);
+    return iterator(c);
 }
-
-// lower_bound
-// localise la premiere position ou l'element n'est
-// pas plus petit que celui recu en parametre
-
-// template <typename TYPE>
-// typename set<TYPE>::iterator set<TYPE>::lower_bound(const TYPE& t) const
-// {
-//     cellule *c = m_avant;
-//     cellule *apres = m_avant->m_prec[0];
-// 	while(c->m_suiv[0] != apres)
-// 		if(*c->m_suiv[0]->m_contenu < t)
-// 			c = c->m_suiv[0];
-// 		else
-// 			break;
-// 	return iterator(c->m_suiv[0]);
-// }
 
 // lower_bound en temps log n
 // localise la premiere position ou l'element n'est
@@ -171,31 +136,15 @@ typename set<TYPE>::iterator set<TYPE>::lower_bound(const TYPE& t) const
 template <typename TYPE>
 typename set<TYPE>::iterator set<TYPE>::upper_bound(const TYPE& x) const
 {
-    int niveau = m_avant->m_suiv.size() - 1;
-    cellule* c = m_avant;
+    cellule* c = lower_bound(x).m_pointeur;
 
-    while (niveau >= 0)
-    {
-        while (c->m_suiv[niveau]->m_contenu != nullptr)
-        {
-            if (*(c->m_suiv[niveau]->m_contenu) < x)
-            {
-                c = c->m_suiv[niveau];
-            }
-            else
-            {
-                break;
-            }
-        }
-        niveau--;
-    }
     // Suivant == fin ou plus grand on retourne le suivant
-    if (c->m_suiv[0]->m_contenu == nullptr || x < *(c->m_suiv[0]->m_contenu))
+    if (c->m_contenu == nullptr || x < *c->m_contenu)
     {
-        return iterator(c->m_suiv[0]);
+        return iterator(c);
     }
     // Suivant est necessairement x
-    return iterator(c->m_suiv[0]->m_suiv[0]);
+    return iterator(c->m_suiv[0]);
 }
 
 /////////////////////////////////////////////////////////////////
