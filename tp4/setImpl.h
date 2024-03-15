@@ -230,7 +230,7 @@ typename set<TYPE>::iterator set<TYPE>::erase(iterator it)
     {
         return end();
     }
-    
+
     cellule* toDelete = it.m_pointeur;
     cellule* next = toDelete->m_suiv[0];
     int niveau = toDelete->m_suiv.size() - 1;
