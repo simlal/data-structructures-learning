@@ -225,6 +225,34 @@ size_t set<TYPE>::erase(const TYPE& VAL)
 template <typename TYPE>
 typename set<TYPE>::iterator set<TYPE>::erase(iterator it)
 {
+    // Cas limite set vide
+    if (m_size == 0)
+    {
+        return end();
+    }
+    
+    cellule* toDelete = it.m_pointeur;
+    cellule* next = toDelete->m_suiv[0];
+    int niveau = toDelete->m_suiv.size() - 1;
+
+    for (int i = niveau; i >= 0; i--)
+    {
+        // Diminution de la taille des cellules frontieres
+        if (toDelete->m_prec[i] ==  m_avant && toDelete->m_suiv[i] == m_avant->m_prec[0])
+        {
+            m_avant->m_suiv.pop_back();
+            m_avant->m_prec[0]->m_prec.pop_back();
+        }
+        // M-a-j des vecteurs pointeurs des cellules voisines
+        else
+        {
+            toDelete->m_prec[i]->m_suiv[i] = toDelete->m_suiv[i];
+            toDelete->m_suiv[i]->m_prec[i] = toDelete->m_prec[i];
+        }
+    }
+    --m_size;
+    delete toDelete;
+    return iterator(next);
 }
 
 #endif
