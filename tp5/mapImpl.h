@@ -7,8 +7,8 @@
 //  Modifie par : Vincent Ducharme, Hiver 2018
 //
 //  Devoir fait par
-//     Coéquipier 1 :
-//     Coéquipier 2 :
+//     Coï¿½quipier 1 : Simon Lalonde lals2906
+//     Coï¿½quipier 2 :
 
 #ifndef mapImpl_h
 #define mapImpl_h
@@ -21,7 +21,38 @@
 template <typename Tclef, typename Tvaleur>
 typename map<Tclef, Tvaleur>::iterator map<Tclef, Tvaleur>::lower_bound(const Tclef& c) const
 {
-    return iterator(nullptr);
+    // Commencer la recherche a partir de la racine
+    noeud* currentNode = m_apres->m_gauche;
+    noeud* lowerBoundNode = nullptr;
+    
+    while (currentNode != nullptr)
+    {
+        // Descend vers la gauche car cle inferieure a position actuelle
+        if (c < currentNode->m_contenu->first)
+        {
+            lowerBoundNode = currentNode;    // Conserve l'identite du plus haut parent ou feuille en fin de parcours
+            currentNode = currentNode->m_gauche;
+        }
+        // Descend vers la droite car cle superieure a position actuelle
+        else if (c > currentNode->m_contenu->first)
+        {
+            currentNode = currentNode->m_droite;
+        }
+        // La cle existe, on retourne le noeud courant
+        else
+        {
+            return iterator(currentNode);
+        }
+    }
+    // Navigation que vers la droite seulement donc derniere feuille a droite
+    if (lowerBoundNode == nullptr)
+    {
+        return iterator(m_apres);    // Incompatible d'utiliser end() sur fonction-membre const avec retour iterator non-const
+    }
+    else
+    {
+        return iterator(lowerBoundNode);    
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////
