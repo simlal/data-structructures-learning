@@ -85,7 +85,7 @@ template <typename Tclef, typename Tvaleur>
 void map<Tclef, Tvaleur>::rotation_gauche_droite(noeud*& p)
 {
     // Chercher les indices pre-rotations
-    noeud *temp = p->m_gauche;    // noeud-enfant ("A") de gauche avec noeud parent p ("B")
+    noeud *temp = p->m_gauche;    // noeud-enfant ("A") de gauche avec noeud parent p ("B") debalance
     int ia = temp->m_indice;
     int ib = p->m_indice;
 
@@ -95,16 +95,60 @@ void map<Tclef, Tvaleur>::rotation_gauche_droite(noeud*& p)
     temp->m_indice = nia;
     p->m_indice = nib;
 
-    // Rotation enfant-g vers parent avec changements de branches
+    // Rotation enfant-g vers parent avec changements de ss-arbres
     p->m_gauche = temp->m_droite;
     temp->m_droite = p;
     p = temp;    
 }
 
 //effectuer une rotation simple de la droite vers la gauche
+/*
+Considerant A comme noeud enfant droite et B parent debalance
+Pour nib:
+ia = h2 - h3
+h2 = h3 + ia
+ha = max(h2, h3) + 1
+   = max (h3 + ia, h3) + 1
+   = h3 + max(0, ia) + 1
+
+ib = h1 - ha
+h1 = ha + ib = h3 + max(0, ia) + 1 + ib
+Donc
+nib = h1 - h2
+    = (h3 + max(0, ia) + 1 + ib) - (h3 + ia)
+    = -ia + max(0, ia) + 1 + ib
+
+
+Pour nia:
+nib = h1 - h2
+h1 = nib + h2
+nhb = max(h1, h2) + 1
+    = max(nib + h2, h2) + 1
+    = h2 + max(0, nib) + 1
+    = h3 + ia + max(0, nib) + 1
+Donc
+nia = nhb - h3 = (h3 + ia + max(0, nib) + 1) - h3
+nia = ia - max(0, nib) + 1
+*/
+
 template <typename Tclef, typename Tvaleur>
 void map<Tclef, Tvaleur>::rotation_droite_gauche(noeud*& p)
 {
+    // Chercher les indices pre-rotations
+    noeud *temp = p->m_droite;    // noeud-enfant ("A") de droite avec noeud parent p ("B") debalance
+    int ia = temp->m_indice;
+    int ib = p->m_indice;
+    
+    // Calculs et affectation des nouveaux indices post-rotations
+    int nib = -ia + std::max(0, ia) + 1 + ib;
+    int nia = ia - std::max(0, nib) + 1;
+    temp->m_indice = nia;
+    p->m_indice = nib;
+
+    // Rotation enfant-d vers parent avec changement ss-arbres
+    p->m_droite = temp->m_gauche;
+    temp->m_gauche = p;
+    p = temp;
 }
 
 
