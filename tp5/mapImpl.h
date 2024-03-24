@@ -77,12 +77,28 @@ typename map<Tclef, Tvaleur>::iterator map<Tclef, Tvaleur>::insert(iterator j, c
 
 ///////////////////////////////////////////////////////////////////////////
 // gestion de l'equilibre de l'arbre
-
+// Fonctions de rotations inspirees des notes de  cours IFT-339 v.10.2
+// tel que mentionne dans l'enonce
 
 //effectuer une rotation simple de la gauche vers la droite
 template <typename Tclef, typename Tvaleur>
 void map<Tclef, Tvaleur>::rotation_gauche_droite(noeud*& p)
 {
+    // Chercher les indices pre-rotations
+    noeud *temp = p->m_gauche;    // noeud-enfant ("A") de gauche avec noeud parent p ("B")
+    int ia = temp->m_indice;
+    int ib = p->m_indice;
+
+    // Calculs et affectation des nouveaux indices post-rotations
+    int nib = -ia - std::max(0, -ia) - 1 + ib;
+    int nia = ia - std::max(0, -nib) - 1;
+    temp->m_indice = nia;
+    p->m_indice = nib;
+
+    // Rotation enfant-g vers parent avec changements de branches
+    p->m_gauche = temp->m_droite;
+    temp->m_droite = p;
+    p = temp;    
 }
 
 //effectuer une rotation simple de la droite vers la gauche
