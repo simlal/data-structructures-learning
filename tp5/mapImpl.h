@@ -62,8 +62,15 @@ template <typename Tclef, typename Tvaleur>
 typename map<Tclef, Tvaleur>::iterator map<Tclef, Tvaleur>::erase(iterator i)
 {
     assert(i!=end());
-    erase(i++->first);
-    return i;
+    
+    // Aller chercher le prochain element en inordre
+    noeud* toReplace = nullptr;
+    iterator nextNode = i;
+    ++nextNode;
+
+    // Suprimmer l'element
+    erase(i->first, i.m_courant, toReplace);
+    return nextNode;
 }
 
 ///////////////////////////////////////////////////////////////////////////
