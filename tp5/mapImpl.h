@@ -82,6 +82,9 @@ typename map<Tclef, Tvaleur>::iterator map<Tclef, Tvaleur>::erase(iterator i)
 template <typename Tclef, typename Tvaleur>
 typename map<Tclef, Tvaleur>::iterator map<Tclef, Tvaleur>::insert(iterator j, const Tclef& c, const Tvaleur& val)
 {
+
+    noeud* before_j = j.m_courant->m_parent;
+    
     // La valeur existe deja
     if (j->first == c)
     {
@@ -89,20 +92,17 @@ typename map<Tclef, Tvaleur>::iterator map<Tclef, Tvaleur>::insert(iterator j, c
         return j;
     }
     
-    // Verifier iterateur a la bonne position (suivant a la valeur a inserer)
-    else if (j != end() && j->first > c)
+    // Insertion temps constant avec iter en bonne position 
+    // Suivant a la valeur a inserer et precedent a la valeur precedente
+    else if (j != end() && j->first > c && before_j->m_contenu->first < c && before_j != m_apres)
     {
-        // Insertion en temps constant
         noeud*& p = reference(j.m_courant->m_parent);
         insert(c, val, p, j);
-        std::cout << "const-amort" << std::endl;
         return j;
-        
     }
     // Iterateur pas a la bonne place, insertion log(n) ou map vide
     else
     {
-        std::cout << "log(n)" << std::endl;
         return insert(c, val).first;
     }
 }
