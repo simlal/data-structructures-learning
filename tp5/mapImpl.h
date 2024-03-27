@@ -8,13 +8,10 @@
 //
 //  Devoir fait par
 //     Co�quipier 1 : Simon Lalonde lals2906
-//     Co�quipier 2 :
+//     Co�quipier 2 : William Pomerleau pomw1701
 
 #ifndef mapImpl_h
 #define mapImpl_h
-#include "map.h"
-#include <iostream>
-using namespace std;
 
 #include <algorithm>
 
@@ -88,7 +85,6 @@ typename map<Tclef, Tvaleur>::iterator map<Tclef, Tvaleur>::insert(iterator j, c
     // La valeur existe deja
     if (j->first == c)
     {
-        std::cout << "already exists" << std::endl;
         return j;
     }
     
