@@ -12,9 +12,7 @@
 
 #ifndef mapImpl_h
 #define mapImpl_h
-
 #include <algorithm>
-
 ///////////////////////////////////////////////////////////////////////////
 // lower_bound O(log n)
 
@@ -81,22 +79,16 @@ typename map<Tclef, Tvaleur>::iterator map<Tclef, Tvaleur>::insert(iterator j, c
 {
 
     noeud* before_j = j.m_courant->m_parent;
-    
-    // La valeur existe deja
-    if (j->first == c)
-    {
-        return j;
-    }
-    
     // Insertion temps constant avec iter en bonne position 
     // Suivant a la valeur a inserer et precedent a la valeur precedente
-    else if (j != end() && j->first > c && before_j->m_contenu->first < c && before_j != m_apres)
+    if (j != end() && c < j->first && before_j->m_contenu->first < c && before_j != m_apres)
     {
-        noeud*& p = reference(j.m_courant->m_parent);
+        iterator temp = j;
+        noeud*& p = reference(before_j);
         insert(c, val, p, j);
         return j;
     }
-    // Iterateur pas a la bonne place, insertion log(n) ou map vide
+    // Iterateur pas a la bonne place, insertion log(n) ou map vide ou existe deja
     else
     {
         return insert(c, val).first;
