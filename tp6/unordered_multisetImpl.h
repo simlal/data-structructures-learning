@@ -8,8 +8,8 @@
 //  Modifie par : Vincent Ducharme, Automne 2022
 //
 //  Devoir fait par
-//     Coéquipier 1 :
-//     Coéquipier 2 :
+//     Coï¿½quipier 1 : Simon Lalonde - lals2906
+//     Coï¿½quipier 2 : Adrien Levert - leva3132
 
 #ifndef unordered_multisetImpl_h
 #define unordered_multisetImpl_h
