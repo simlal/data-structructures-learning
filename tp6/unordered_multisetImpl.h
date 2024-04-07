@@ -83,7 +83,7 @@ unordered_multiset<TYPE, classe_de_dispersion>::insert(const TYPE& val)
     }
     else
     {
-        m_rep[indexAlv]->push_back(val);     // 
+        m_rep[indexAlv]->push_back(val);
     }
 
     // Mise a jour de la taille
