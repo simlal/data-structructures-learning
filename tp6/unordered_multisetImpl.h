@@ -41,6 +41,23 @@ void unordered_multiset<TYPE, classe_de_dispersion>::iterator::avancer()
 template <typename TYPE,typename classe_de_dispersion>
 void unordered_multiset<TYPE, classe_de_dispersion>::iterator::reculer()
 {
+    // Impossible de verifier si on est sur la premiere alveole sans m_rep
+    
+    // On recule d'une alveole si on est au debut de la liste
+    if (m_pos == (*m_alv)->begin())
+    {
+        do
+        {
+            --m_alv;
+        } 
+        while (*m_alv == nullptr);
+        m_pos = --(*m_alv)->end();
+    }
+    // Recule simplement d'une position
+    else
+    {
+        --m_pos;
+    }
 }
 
 /////////////////////////////////////////////////////////////////////
