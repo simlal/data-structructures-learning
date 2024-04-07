@@ -21,6 +21,21 @@
 template <typename TYPE,typename classe_de_dispersion>
 void unordered_multiset<TYPE, classe_de_dispersion>::iterator::avancer()
 {
+    
+    if ((*m_alv)->empty())
+    {
+        return;
+    }
+    if (++m_pos == (*m_alv)->end())
+    {
+        // Avancer au moins de 1 alv avant de valider si elle est vide
+        do
+        {
+            ++m_alv;
+        }
+        while (*m_alv == nullptr);
+        m_pos = (*m_alv)->begin();
+    }
 }
 
 template <typename TYPE,typename classe_de_dispersion>
