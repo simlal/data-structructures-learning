@@ -74,7 +74,12 @@ unordered_multiset<TYPE, classe_de_dispersion>::insert(const TYPE& val)
     float facteurCharge = static_cast<float>(m_size) / nbAlv;
     if (facteurCharge > m_facteur_max)
     {
+        list<TYPE>* derniereAlv = m_rep.back();     // Sauvegarde de l'ancienne derniere alv
+        
+        // Faire l'ajustement de la derniere alveole (ptr liste vide)
         m_rep.resize(m_rep.size() * 2);
+        m_rep.back() = derniereAlv;
+        m_rep[nbAlv] = nullptr;
     }
     // Iterator sur alveole d'insertion (random access donc on peut faire + alv)
     typename std::vector<std::list<TYPE>*>::iterator itAlv = m_rep.begin() + indexAlv;
