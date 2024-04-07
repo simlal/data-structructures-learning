@@ -22,10 +22,12 @@ template <typename TYPE,typename classe_de_dispersion>
 void unordered_multiset<TYPE, classe_de_dispersion>::iterator::avancer()
 {
     
+    // Iterateur sur liste vide donc derniere alveole
     if ((*m_alv)->empty())
     {
         return;
     }
+    // Avancer a la prochaine position
     if (++m_pos == (*m_alv)->end())
     {
         // Avancer au moins de 1 alv avant de valider si elle est vide
