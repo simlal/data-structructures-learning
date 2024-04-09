@@ -88,30 +88,35 @@ unordered_multiset<TYPE, classe_de_dispersion>::insert(const TYPE& val)
 
     // Mise a jour de la taille
     m_size++;
-
-    // Augmentation nb alveoles en fct du facteur de charge
+    
+    // Augmentation nb alveoles car surpasse facteur de charge
     float facteurCharge = static_cast<float>(m_size) / nbAlv;
     if (facteurCharge > m_facteur_max)
     {
-        list<TYPE>* derniereAlv = m_rep.back();     // Sauvegarde de l'ancienne derniere alv
-        
-        // Faire l'ajustement de la derniere alveole (ptr liste vide)
-        m_rep.resize(m_rep.size() * 2);
-        m_rep.back() = derniereAlv;
-        m_rep[nbAlv] = nullptr;
+        unordered_multiset<TYPE, classe_de_dispersion> nouveauSet(m_rep.size() * 2);
+        for (iterator it = begin(); it != end(); ++it)
+        {
+            size_t nouveauIndexAlv = disperseur(*it) % nouveauSet.m_rep.size();
+            if (nouveauSet.m_rep[nouveauIndexAlv] == nullptr)
+            {
+                nouveauSet.m_rep[nouveauIndexAlv] = new list<TYPE>();
+            }
+            nouveauSet.m_rep[nouveauIndexAlv]->push_back(*it);
+            nouveauSet.m_size++;
+        }
+        // Echange du ptr original et reaffectation pour valeur inseree
+        this->swap(nouveauSet);
+        nbAlv = m_rep.size() - 1;
+        indexAlv = valHachage % nbAlv;
     }
-    // Iterator sur alveole d'insertion (random access donc on peut faire + alv)
+
+    // Chercher alveole de val avec iterateur 'random access'
     typename std::vector<std::list<TYPE>*>::iterator itAlv = m_rep.begin() + indexAlv;
     
     // Iterator sur l'element insere dans la liste 
     typename list<TYPE>::iterator itPos = m_rep[indexAlv]->end();
     itPos--;       // Chercher le dernier ele
-    
-    // Retour de l'iterator ums
-    typename unordered_multiset<TYPE,classe_de_dispersion>::iterator p;
-    p.m_alv = itAlv;
-    p.m_pos = itPos;
-    return p;
+    return iterator(itAlv, itPos);
 }
 
 template <typename TYPE,typename classe_de_dispersion>
