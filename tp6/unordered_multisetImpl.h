@@ -13,7 +13,7 @@
 
 #ifndef unordered_multisetImpl_h
 #define unordered_multisetImpl_h
-
+#include "unordered_multiset.h"
 
 ///////////////////////////////////////////
 // avancer et reculer un iterateur
@@ -93,10 +93,11 @@ unordered_multiset<TYPE, classe_de_dispersion>::insert(const TYPE& val)
     float facteurCharge = static_cast<float>(m_size) / nbAlv;
     if (facteurCharge > m_facteur_max)
     {
-        unordered_multiset<TYPE, classe_de_dispersion> nouveauSet(m_rep.size() * 2);
+        // Constructeur avec plus grande puissance de 2 du nbAlv prec
+        unordered_multiset<TYPE, classe_de_dispersion> nouveauSet(nbAlv * 2);
         for (iterator it = begin(); it != end(); ++it)
         {
-            size_t nouveauIndexAlv = disperseur(*it) % nouveauSet.m_rep.size();
+            size_t nouveauIndexAlv = disperseur(*it) % (nouveauSet.m_rep.size() - 1);
             if (nouveauSet.m_rep[nouveauIndexAlv] == nullptr)
             {
                 nouveauSet.m_rep[nouveauIndexAlv] = new list<TYPE>();
@@ -122,15 +123,101 @@ unordered_multiset<TYPE, classe_de_dispersion>::insert(const TYPE& val)
 template <typename TYPE,typename classe_de_dispersion>
 size_t unordered_multiset<TYPE, classe_de_dispersion>::erase(const TYPE& val)
 {
-    size_t nb=0;
-    return nb;
+    // Faire le hachage de la nouvelle val et localiser l'alveole
+    size_t nbEffacer = 0;
+    size_t valHachage = disperseur(val);
+    size_t nbAlv = m_rep.size() - 1;
+    size_t indexAlv = valHachage % nbAlv;
+
+    typename list<TYPE>::iterator it = m_rep[indexAlv]->begin();
+    typename list<TYPE>::iterator fin = m_rep[indexAlv]->end();
+    while (it != fin)
+    {
+        // Efface tous les exmaplaires
+        if (*it == val)
+        {
+            it = m_rep[indexAlv]->erase(it);    // Retourne le prochain donc pas besoin ++it;
+            nbEffacer++;
+            m_size--;
+            // Mettre nullptr si liste vide
+            if (m_rep[indexAlv]->empty())
+            {
+                delete m_rep[indexAlv];
+                m_rep[indexAlv] = nullptr;
+            }
+        }
+        else
+        {
+            it++;       // Avance au prochain car non-trouve
+        }
+    }   
+    
+    // Diminution nb alveoles car facteur charge inferieur a min
+    float facteurCharge = static_cast<float>(m_size) / nbAlv;
+    if (facteurCharge < m_facteur_min)
+    {
+        // Constructeur avec nbAlvMin
+        unordered_multiset<TYPE, classe_de_dispersion> nouveauSet(nbAlv / 2);
+        for (iterator it = begin(); it != end(); it++)
+        {
+            size_t nouveauIndexAlv = disperseur(*it) % (nouveauSet.m_rep.size() - 1);
+            if (nouveauSet.m_rep[nouveauIndexAlv] == nullptr)
+            {
+                nouveauSet.m_rep[nouveauIndexAlv] = new list<TYPE>();
+            }
+            nouveauSet.m_rep[nouveauIndexAlv]->push_back(*it);
+            nouveauSet.m_size++;
+        }
+        // Echange du ptr original et reaffectation pour valeur inseree
+        this->swap(nouveauSet);
+    }
+    return nbEffacer;
 }
 
 template <typename TYPE,typename classe_de_dispersion>
 typename unordered_multiset<TYPE,classe_de_dispersion>::iterator
 unordered_multiset<TYPE, classe_de_dispersion>::erase(typename unordered_multiset<TYPE, classe_de_dispersion>::iterator i)
 {
+    // Iterateur sur liste vide donc derniere alveole
+    if (i == end())
+    {
+        return i;
+    }
+    // Faire le hachage de la nouvelle val et localiser l'alveole
+    size_t valHachage = disperseur(*i);
+    size_t nbAlv = m_rep.size() - 1;
+    size_t indexAlv = valHachage % nbAlv;
+    
+    // Effacer l'element
+    typename list<TYPE>::iterator itEfface = i.m_pos;
+    ++i; 
+    m_rep[indexAlv]->erase(itEfface);
+    m_size--;
+    // Mettre nullptr si liste vide
+    if (m_rep[indexAlv]->empty())
+    {
+        delete m_rep[indexAlv];
+        m_rep[indexAlv] = nullptr;
+    }
+    // Diminution nb alveoles car facteur charge inferieur a min
+    float facteurCharge = static_cast<float>(m_size) / nbAlv;
+    if (facteurCharge < m_facteur_min)
+    {
+        // Constructeur avec nbAlvMin
+        unordered_multiset<TYPE, classe_de_dispersion> nouveauSet(nbAlv / 2);
+        for (iterator it = begin(); it != end(); it++)
+        {
+            size_t nouveauIndexAlv = disperseur(*it) % (nouveauSet.m_rep.size() - 1);
+            if (nouveauSet.m_rep[nouveauIndexAlv] == nullptr)
+            {
+                nouveauSet.m_rep[nouveauIndexAlv] = new list<TYPE>();
+            }
+            nouveauSet.m_rep[nouveauIndexAlv]->push_back(*it);
+            nouveauSet.m_size++;
+        }
+        // Echange du ptr original et reaffectation pour valeur inseree
+        this->swap(nouveauSet);
+    }
     return i;
 }
-
 #endif // unordered_multisetImpl_h
