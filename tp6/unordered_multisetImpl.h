@@ -89,7 +89,7 @@ unordered_multiset<TYPE, classe_de_dispersion>::insert(const TYPE& val)
     // Mise a jour de la taille
     m_size++;
     
-    // Augmentation nb alveoles car surpasse facteur de charge
+    // Augmentation nb alveoles car surpasse facteur de charge a max
     float facteurCharge = static_cast<float>(m_size) / nbAlv;
     if (facteurCharge > m_facteur_max)
     {
